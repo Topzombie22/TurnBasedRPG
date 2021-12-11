@@ -19,7 +19,7 @@ namespace TurnBasedRPG
         static bool gameOver;
         static bool inFight = true;
         static bool Loaded;
-        static bool playerTurn;
+        static bool playerTurn = true;
         static bool monsterTurn;
         static bool shopping;
         static bool attacking;
@@ -48,6 +48,10 @@ namespace TurnBasedRPG
 
         static void PlayerTurn()
         {
+            attacking = false;
+            healing = false;
+            defending = false;
+            Sprites();
             ConsoleKeyInfo cki;
             do
             {
@@ -75,9 +79,6 @@ namespace TurnBasedRPG
 
         static void PlayerAction()
         {
-            attacking = false;
-            healing = false;
-            defending = false;
             if (playerInGameMenu == 1)
             {
                 Console.WriteLine("The player attacks");
@@ -90,6 +91,9 @@ namespace TurnBasedRPG
             {
                 Console.WriteLine("The player blocks");
                 System.Threading.Thread.Sleep(500);
+                defending = true;
+                Sprites();
+                Defending();
             }
             if (playerInGameMenu == 3)
             {
@@ -149,6 +153,11 @@ namespace TurnBasedRPG
                 Console.SetCursorPosition(0, 15);
                 Console.WriteLine("You have no more potions left...");
             }
+        }
+
+        static void Defending()
+        {
+            playerTurn = false;
         }
 
         static void PlayerBlocking()
@@ -212,9 +221,23 @@ namespace TurnBasedRPG
             }
             if (defending == true)
             {
-
+                Console.SetCursorPosition(2, 1);
+                Console.WriteLine("                                                                           #@@##  ");
+                Console.WriteLine("                                    |`-._/\\_.-`|                          @&#@@@@@#");
+                Console.WriteLine("                                    |    ||    |                          #@@@@@@@");
+                Console.WriteLine("                                    |___o()o___|                           #@@@@@@");
+                Console.WriteLine("                                    |__((<>))__|                          #@@@@@@@@#");
+                Console.WriteLine("         #####                      \\   o\\/o   /                          @@@@@@@@@@");
+                Console.WriteLine("         ######    ##*               \\   ||   /                           @@@@@@@@@@");
+                Console.WriteLine("         #####  ##                    \\  ||  /                            @@@@@@@@@@");
+                Console.WriteLine("        *###### #                      '.||.'                             @@@@@@@@@@");
+                Console.WriteLine("        #######                          ``                               @@@@@@@@@@#");
+                Console.WriteLine("        #######                                                           @@@@@@@@@@#");
+                Console.WriteLine("         ######*                                                         #@@@@@@@@@@");
+                Console.WriteLine("                                                                           *#%%%###");
+                System.Threading.Thread.Sleep(500);
             }
-            else
+            else if (healing == false && attacking == false && defending == false)
             {
                 Console.SetCursorPosition(2, 1);
                 Console.WriteLine("                                                                           #@@##  ");
