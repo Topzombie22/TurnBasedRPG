@@ -4,17 +4,20 @@ namespace TurnBasedRPG
 {
     class Program
     {
-        static float maxMonsterHP;
-        static float currentMonsterHP;
-        static float monsterDamage;
-        static float maxPlayerHP;
-        static float currentPlayerHP;
-        static float playerDamage;
-        static float healthPotionHeal;
-        static float blockReduction;
+        static int maxMonsterHP;
+        static int currentMonsterHP;
+        static int monsterDamage;
+        static int maxPlayerHP;
+        static int currentPlayerHP;
+        static int playerDamage;
+        static int healthPotionHeal;
+        static int blockReduction;
+        static int playerLvl = 2;
         static bool onMenu;
         static bool inGame;
         static bool gameOver;
+        static bool inFight = true;
+        static bool Loaded;
         static bool playerTurn;
         static bool monsterTurn;
         static bool shopping;
@@ -22,15 +25,23 @@ namespace TurnBasedRPG
         static bool defending;
         static bool healing;
 
-        static int playerInGameMenu;
+        static int playerInGameMenu = 1;
 
 
         static void Main(string[] args)
         {
-            playerInGameMenu = 1;
-            PlayerTurn();
+            GameLoop();
             Console.WriteLine("FightDome...");
             Console.ReadKey();
+        }
+
+        static void GameLoop()
+        {
+            MonsterInitializer();
+            while (inFight == true)
+            {
+                PlayerTurn();
+            }
         }
 
         static void PlayerTurn()
@@ -57,11 +68,66 @@ namespace TurnBasedRPG
                     break;
                 }
             } while (cki.Key != ConsoleKey.Spacebar || cki.Key != ConsoleKey.Enter);
+            PlayerAction();
         }
 
         static void PlayerAction()
         {
-            
+            if (playerInGameMenu == 1)
+            {
+                Console.WriteLine("The player attacks");
+                System.Threading.Thread.Sleep(500);
+                PlayerAttack();
+            }
+            if (playerInGameMenu == 2)
+            {
+                Console.WriteLine("The player blocks");
+                System.Threading.Thread.Sleep(500);
+            }
+            if (playerInGameMenu == 3)
+            {
+                Console.WriteLine("The player heals");
+                System.Threading.Thread.Sleep(500);
+            }
+            if (playerInGameMenu == 4)
+            {
+                Console.WriteLine("You save the game");
+                System.Threading.Thread.Sleep(500);
+            }
+            if (playerInGameMenu == 5)
+            {
+                Console.WriteLine("You go back to menu");
+                System.Threading.Thread.Sleep(500);
+                gameOver = true;
+            }
+        }
+
+        static void PlayerAttack()
+        {
+            currentMonsterHP = currentMonsterHP - playerDamage;
+            if (currentMonsterHP < 0)
+            {
+                currentMonsterHP = 0;
+            }
+            Console.WriteLine("The monster took " + playerDamage + " Damage.");
+            Console.WriteLine("The monster has " + currentMonsterHP + " Hp left.");
+            System.Threading.Thread.Sleep(500);
+        }
+
+        //May conflict with loading later
+        static void MonsterInitializer()
+        {
+            if (Loaded == false)
+            {
+                Random random = new Random();
+                maxMonsterHP = random.Next(10 * playerLvl, 30 * playerLvl);
+                currentMonsterHP = maxMonsterHP;
+                monsterDamage = random.Next(2 * playerLvl, 5 * playerLvl);
+            }
+            else if (Loaded == true)
+            {
+
+            }
         }
 
         static void PlayerMenu()
