@@ -7,6 +7,7 @@ namespace TurnBasedRPG
         static int maxMonsterHP;
         static int currentMonsterHP;
         static int monsterDamage;
+        static int monsterHeal;
         static int maxPlayerHP = 20;
         static int currentPlayerHP = 10;
         static int playerDamage = 10;
@@ -14,8 +15,10 @@ namespace TurnBasedRPG
         static int blockReduction;
         static int playerLvl = 2;
         static int playerPotions = 3;
+        static int monsterChoice;
         static bool onMenu;
         static bool inGame;
+        static bool monsterTryingToHeal;
         static bool gameOver;
         static bool inFight = true;
         static bool inStatScreen;
@@ -169,6 +172,10 @@ namespace TurnBasedRPG
                 Console.SetCursorPosition(0, 15);
                 Console.WriteLine("You are max health and cannot heal anymore");
                 System.Threading.Thread.Sleep(1000);
+                UIClear();
+                healing = false;
+                Sprites();
+                PlayerTurn();
             }
             else if (playerPotions <= 0)
             {
@@ -176,6 +183,10 @@ namespace TurnBasedRPG
                 Console.SetCursorPosition(0, 15);
                 Console.WriteLine("You have no more potions left...");
                 System.Threading.Thread.Sleep(1000);
+                UIClear();
+                healing = false;
+                Sprites();
+                PlayerTurn();
             }
         }
 
@@ -218,6 +229,44 @@ namespace TurnBasedRPG
             Console.ReadKey();
             UIClear();
             Sprites();
+        }
+        
+        static void MonsterAI()
+        {
+            Random random = new Random();
+            monsterChoice = random.Next(1, 6);
+            if (monsterTryingToHeal == true)
+            {
+                MonsterHeal();
+            }
+            else if (monsterChoice >= 4)
+            {
+                MonsterAttack();
+            }
+            else if (monsterChoice <= 3)
+            {
+                MonsterHeal();
+            }
+        }
+
+        static void MonsterAttack()
+        {
+            currentPlayerHP = currentPlayerHP - monsterDamage;
+        }
+
+        static void MonsterHeal()
+        {
+            if (monsterTryingToHeal == true)
+            {
+                Random random = new Random();
+                monsterHeal = random.Next(2 * playerLvl, 10 * playerLvl);
+                currentMonsterHP = currentMonsterHP - monsterHeal;
+                monsterTryingToHeal = false;
+            }
+            else
+            {
+                monsterTryingToHeal = true;
+            }
         }
 
         static void MonsterLifeCheck()
@@ -380,7 +429,7 @@ namespace TurnBasedRPG
         static void UIClear()
         {
             Console.SetCursorPosition(0, 15);
-            Console.WriteLine("                                                                                                                 ");
+            Console.WriteLine("                                                                                                                                             ");
         }
     }
 }
