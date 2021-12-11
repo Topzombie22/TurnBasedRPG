@@ -100,7 +100,6 @@ namespace TurnBasedRPG
                 Console.WriteLine("The player heals");
                 System.Threading.Thread.Sleep(500);
                 healing = true;
-                Sprites();
                 PlayerHeal();
             }
             if (playerInGameMenu == 4)
@@ -133,13 +132,20 @@ namespace TurnBasedRPG
         {
             if (playerPotions > 0 && currentPlayerHP < maxPlayerHP)
             {
+                Sprites();
                 Random random = new Random();
                 healthPotionHeal = random.Next(0 * playerLvl, 7 * playerLvl);
                 currentPlayerHP = currentPlayerHP + healthPotionHeal;
-                if (currentPlayerHP > maxPlayerHP)
+                if (healthPotionHeal == 0)
                 {
                     Console.SetCursorPosition(0, 15);
-                    Console.WriteLine("Your current health cannot exceed your max hp...");
+                    Console.WriteLine("That health potion was a dud!");
+                }
+                if (currentPlayerHP > maxPlayerHP)
+                {
+                    currentPlayerHP = maxPlayerHP;
+                    Console.SetCursorPosition(0, 15);
+                    Console.WriteLine("Your health has been capped to your max health!");
                 }
                 playerTurn = false;
             }
@@ -258,6 +264,9 @@ namespace TurnBasedRPG
 
         static void PlayerMenu()
         {
+            Console.SetCursorPosition(0, 14);
+            Console.Write("          " + currentPlayerHP + "/" + maxPlayerHP + "                                                              " + currentMonsterHP + "/" + maxMonsterHP);
+
             Console.SetCursorPosition(0, 16);
             if (playerTurn == true)
             {
