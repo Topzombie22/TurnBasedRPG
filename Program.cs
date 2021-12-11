@@ -38,10 +38,11 @@ namespace TurnBasedRPG
         static void GameLoop()
         {
             MonsterInitializer();
+            Sprites();
             while (inFight == true)
             {
                 PlayerTurn();
-            }
+            } 
         }
 
         static void PlayerTurn()
@@ -73,10 +74,15 @@ namespace TurnBasedRPG
 
         static void PlayerAction()
         {
+            attacking = false;
+            healing = false;
+            defending = false;
             if (playerInGameMenu == 1)
             {
                 Console.WriteLine("The player attacks");
                 System.Threading.Thread.Sleep(500);
+                attacking = true;
+                Sprites();
                 PlayerAttack();
             }
             if (playerInGameMenu == 2)
@@ -88,6 +94,8 @@ namespace TurnBasedRPG
             {
                 Console.WriteLine("The player heals");
                 System.Threading.Thread.Sleep(500);
+                healing = true;
+                Sprites();
             }
             if (playerInGameMenu == 4)
             {
@@ -130,9 +138,70 @@ namespace TurnBasedRPG
             }
         }
 
+        static void Sprites()
+        {
+            if (attacking == true)
+            {
+                Console.SetCursorPosition(2, 1);
+                Console.WriteLine("                                                                           #@@##  ");
+                Console.WriteLine("                                                                          @&#@@@@@#");
+                Console.WriteLine("                                                                          #@@@@@@@");
+                Console.WriteLine("                                                                           #@@@@@@");
+                Console.WriteLine("                                                                          #@@@@@@@@#");
+                Console.WriteLine("                                                          ######      #*  @@@@@@@@@@");
+                Console.WriteLine("                                                           #####   /##    @@@@@@@@@@");
+                Console.WriteLine("                                                          #########       @@@@@@@@@@");
+                Console.WriteLine("                                                          #######         @@@@@@@@@@");
+                Console.WriteLine("                                                          #######         @@@@@@@@@@#");
+                Console.WriteLine("                                                          ######*         @@@@@@@@@@#");
+                Console.WriteLine("                                                                         #@@@@@@@@@@");
+                Console.WriteLine("                                                                           *#%%%###");
+                System.Threading.Thread.Sleep(500);
+            }
+            if (healing == true)
+            {
+                Console.SetCursorPosition(2, 1);
+                Console.WriteLine("                                     __                                    #@@##  ");
+                Console.WriteLine("                                      /  \\                                @&#@@@@@#");
+                Console.WriteLine("                                      |   |                               #@@@@@@@");
+                Console.WriteLine("                                ______|   |______                          #@@@@@@");
+                Console.WriteLine("                               (______     ______)                        #@@@@@@@@#");
+                Console.WriteLine("         #####                        |   |                               @@@@@@@@@@");
+                Console.WriteLine("         ######    ##*                |   |                               @@@@@@@@@@");
+                Console.WriteLine("         #####  ##                    |   |                               @@@@@@@@@@");
+                Console.WriteLine("        *###### #                     |   |                               @@@@@@@@@@");
+                Console.WriteLine("        #######                        \\_/                                @@@@@@@@@@#");
+                Console.WriteLine("        #######                                                           @@@@@@@@@@#");
+                Console.WriteLine("         ######*                                                         #@@@@@@@@@@");
+                Console.WriteLine("                                                                           *#%%%###");
+                System.Threading.Thread.Sleep(500);
+            }
+            if (defending == true)
+            {
+
+            }
+            else
+            {
+                Console.SetCursorPosition(2, 1);
+                Console.WriteLine("                                                                           #@@##  ");
+                Console.WriteLine("                                                                          @&#@@@@@#");
+                Console.WriteLine("                                                                          #@@@@@@@");
+                Console.WriteLine("                                                                           #@@@@@@");
+                Console.WriteLine("                                                                          #@@@@@@@@#");
+                Console.WriteLine("         #####                                                            @@@@@@@@@@");
+                Console.WriteLine("         ######    ##*                                                    @@@@@@@@@@");
+                Console.WriteLine("         #####  ##                                                        @@@@@@@@@@");
+                Console.WriteLine("        *###### #                                                         @@@@@@@@@@");
+                Console.WriteLine("        #######                                                           @@@@@@@@@@#");
+                Console.WriteLine("        #######                                                           @@@@@@@@@@#");
+                Console.WriteLine("         ######*                                                         #@@@@@@@@@@");
+                Console.WriteLine("                                                                           *#%%%###");
+            }
+        }
+
         static void PlayerMenu()
         {
-            Console.Clear();
+            Console.SetCursorPosition(0, 16);
             Console.WriteLine("Players Turn");
             Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
             Console.WriteLine("█                                                                                                         █");
