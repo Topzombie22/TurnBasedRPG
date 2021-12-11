@@ -43,14 +43,12 @@ namespace TurnBasedRPG
             while (inFight == true)
             {
                 PlayerTurn();
+                MonsterTurn();
             } 
         }
 
         static void PlayerTurn()
         {
-            attacking = false;
-            healing = false;
-            defending = false;
             Sprites();
             ConsoleKeyInfo cki;
             do
@@ -106,6 +104,7 @@ namespace TurnBasedRPG
             {
                 Console.WriteLine("You save the game");
                 System.Threading.Thread.Sleep(500);
+                PlayerTurn();
             }
             if (playerInGameMenu == 5)
             {
@@ -117,14 +116,15 @@ namespace TurnBasedRPG
 
         static void PlayerAttack()
         {
+            UIClear();
+            Console.SetCursorPosition(0, 15);
             currentMonsterHP = currentMonsterHP - playerDamage;
             if (currentMonsterHP < 0)
             {
                 currentMonsterHP = 0;
             }
             Console.WriteLine("The monster took " + playerDamage + " Damage.");
-            Console.WriteLine("The monster has " + currentMonsterHP + " Hp left.");
-            System.Threading.Thread.Sleep(500);
+            System.Threading.Thread.Sleep(1000);
             playerTurn = false;
         }
 
@@ -138,26 +138,34 @@ namespace TurnBasedRPG
                 currentPlayerHP = currentPlayerHP + healthPotionHeal;
                 if (healthPotionHeal == 0)
                 {
+                    UIClear();
                     Console.SetCursorPosition(0, 15);
                     Console.WriteLine("That health potion was a dud!");
+                    System.Threading.Thread.Sleep(1000);
                 }
                 if (currentPlayerHP > maxPlayerHP)
                 {
+                    UIClear();
                     currentPlayerHP = maxPlayerHP;
                     Console.SetCursorPosition(0, 15);
                     Console.WriteLine("Your health has been capped to your max health!");
+                    System.Threading.Thread.Sleep(1000);
                 }
                 playerTurn = false;
             }
             else if (currentPlayerHP == maxPlayerHP)
             {
+                UIClear();
                 Console.SetCursorPosition(0, 15);
                 Console.WriteLine("You are max health and cannot heal anymore");
+                System.Threading.Thread.Sleep(1000);
             }
             else if (playerPotions <= 0)
             {
+                UIClear();
                 Console.SetCursorPosition(0, 15);
                 Console.WriteLine("You have no more potions left...");
+                System.Threading.Thread.Sleep(1000);
             }
         }
 
@@ -185,6 +193,25 @@ namespace TurnBasedRPG
             {
 
             }
+        }
+
+        static void MonsterTurn()
+        {
+            ResetPlayerActions();
+            Sprites();
+            UIClear();
+            Console.SetCursorPosition(0, 15);
+            Console.WriteLine("Monster Goes");
+            Console.ReadKey();
+            UIClear();
+            Sprites();
+        }
+
+        static void ResetPlayerActions()
+        {
+            attacking = false;
+            healing = false;
+            defending = false;
         }
 
         static void Sprites()
@@ -260,13 +287,12 @@ namespace TurnBasedRPG
                 Console.WriteLine("         ######*                                                         #@@@@@@@@@@");
                 Console.WriteLine("                                                                           *#%%%###");
             }
+            Console.SetCursorPosition(0, 14);
+            Console.Write("          " + currentPlayerHP + "/" + maxPlayerHP + "                                                              " + currentMonsterHP + "/" + maxMonsterHP);
         }
 
         static void PlayerMenu()
         {
-            Console.SetCursorPosition(0, 14);
-            Console.Write("          " + currentPlayerHP + "/" + maxPlayerHP + "                                                              " + currentMonsterHP + "/" + maxMonsterHP);
-
             Console.SetCursorPosition(0, 16);
             if (playerTurn == true)
             {
@@ -326,6 +352,11 @@ namespace TurnBasedRPG
             }
             Console.WriteLine("█                                                                                                         █");
             Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
+        }
+        static void UIClear()
+        {
+            Console.SetCursorPosition(0, 15);
+            Console.WriteLine("                                                                                                                 ");
         }
     }
 }
