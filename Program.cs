@@ -5,6 +5,7 @@ namespace TurnBasedRPG
     class Program
     {
         static int maxMonsterHP;
+        static int halfMonsterHP;
         static int currentMonsterHP;
         static int monsterDamage;
         static int monsterHeal;
@@ -208,6 +209,7 @@ namespace TurnBasedRPG
                 Random random = new Random();
                 maxMonsterHP = random.Next(10 * playerLvl, 30 * playerLvl);
                 currentMonsterHP = maxMonsterHP;
+                halfMonsterHP = maxMonsterHP / 2;
                 monsterDamage = random.Next(2 * playerLvl, 5 * playerLvl);
             }
             else if (Loaded == true)
@@ -224,9 +226,7 @@ namespace TurnBasedRPG
             UIClear();
             if (inFight == false)
                 return;
-            Console.SetCursorPosition(0, 15);
-            Console.WriteLine("Monster Goes");
-            Console.ReadKey();
+            MonsterAI();
             UIClear();
             Sprites();
         }
@@ -239,19 +239,32 @@ namespace TurnBasedRPG
             {
                 MonsterHeal();
             }
-            else if (monsterChoice >= 4)
+            else if (monsterChoice >= 4 && currentMonsterHP >= halfMonsterHP)
             {
                 MonsterAttack();
             }
-            else if (monsterChoice <= 3)
+            else if (monsterChoice <= 3 && currentMonsterHP >= halfMonsterHP)
             {
                 MonsterHeal();
             }
+            else if (monsterChoice >= 5 && currentMonsterHP < halfMonsterHP)
+            {
+                MonsterAttack();
+            }
+            else if (monsterChoice <= 4 && currentMonsterHP < halfMonsterHP)
+            {
+                MonsterHeal();
+            }
+
         }
 
         static void MonsterAttack()
         {
             currentPlayerHP = currentPlayerHP - monsterDamage;
+            UIClear();
+            Console.SetCursorPosition(0, 15);
+            Console.WriteLine("The monster attacks you dealing " + monsterDamage + "Damage...");
+            System.Threading.Thread.Sleep(1000);
         }
 
         static void MonsterHeal()
@@ -260,7 +273,7 @@ namespace TurnBasedRPG
             {
                 Random random = new Random();
                 monsterHeal = random.Next(2 * playerLvl, 10 * playerLvl);
-                currentMonsterHP = currentMonsterHP - monsterHeal;
+                currentMonsterHP = currentMonsterHP + monsterHeal;
                 monsterTryingToHeal = false;
             }
             else
