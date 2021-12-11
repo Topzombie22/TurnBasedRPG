@@ -9,7 +9,7 @@ namespace TurnBasedRPG
         static int monsterDamage;
         static int maxPlayerHP = 20;
         static int currentPlayerHP = 10;
-        static int playerDamage;
+        static int playerDamage = 10;
         static int healthPotionHeal;
         static int blockReduction;
         static int playerLvl = 2;
@@ -18,6 +18,8 @@ namespace TurnBasedRPG
         static bool inGame;
         static bool gameOver;
         static bool inFight = true;
+        static bool inStatScreen;
+        static bool inShop;
         static bool Loaded;
         static bool playerTurn = true;
         static bool monsterTurn;
@@ -45,6 +47,14 @@ namespace TurnBasedRPG
                 PlayerTurn();
                 MonsterTurn();
             } 
+            while (inFight == false && inStatScreen == true)
+            {
+
+            }
+            while (inFight == false && inStatScreen == false && inShop == true)
+            {
+
+            }
         }
 
         static void PlayerTurn()
@@ -197,14 +207,26 @@ namespace TurnBasedRPG
 
         static void MonsterTurn()
         {
+            MonsterLifeCheck();
             ResetPlayerActions();
             Sprites();
             UIClear();
+            if (inFight == false)
+                return;
             Console.SetCursorPosition(0, 15);
             Console.WriteLine("Monster Goes");
             Console.ReadKey();
             UIClear();
             Sprites();
+        }
+
+        static void MonsterLifeCheck()
+        {
+            if (currentMonsterHP <= 0)
+            {
+                inFight = false;
+                return;
+            }
         }
 
         static void ResetPlayerActions()
@@ -287,6 +309,8 @@ namespace TurnBasedRPG
                 Console.WriteLine("         ######*                                                         #@@@@@@@@@@");
                 Console.WriteLine("                                                                           *#%%%###");
             }
+            Console.SetCursorPosition(0, 14);
+            Console.Write("                                                                                                                                                           ");
             Console.SetCursorPosition(0, 14);
             Console.Write("          " + currentPlayerHP + "/" + maxPlayerHP + "                                                              " + currentMonsterHP + "/" + maxMonsterHP);
         }
