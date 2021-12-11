@@ -7,12 +7,13 @@ namespace TurnBasedRPG
         static int maxMonsterHP;
         static int currentMonsterHP;
         static int monsterDamage;
-        static int maxPlayerHP;
-        static int currentPlayerHP;
+        static int maxPlayerHP = 20;
+        static int currentPlayerHP = 10;
         static int playerDamage;
         static int healthPotionHeal;
         static int blockReduction;
         static int playerLvl = 2;
+        static int playerPotions = 3;
         static bool onMenu;
         static bool inGame;
         static bool gameOver;
@@ -96,6 +97,7 @@ namespace TurnBasedRPG
                 System.Threading.Thread.Sleep(500);
                 healing = true;
                 Sprites();
+                PlayerHeal();
             }
             if (playerInGameMenu == 4)
             {
@@ -120,6 +122,38 @@ namespace TurnBasedRPG
             Console.WriteLine("The monster took " + playerDamage + " Damage.");
             Console.WriteLine("The monster has " + currentMonsterHP + " Hp left.");
             System.Threading.Thread.Sleep(500);
+            playerTurn = false;
+        }
+
+        static void PlayerHeal()
+        {
+            if (playerPotions > 0 && currentPlayerHP < maxPlayerHP)
+            {
+                Random random = new Random();
+                healthPotionHeal = random.Next(0 * playerLvl, 7 * playerLvl);
+                currentPlayerHP = currentPlayerHP + healthPotionHeal;
+                if (currentPlayerHP > maxPlayerHP)
+                {
+                    Console.SetCursorPosition(0, 15);
+                    Console.WriteLine("Your current health cannot exceed your max hp...");
+                }
+                playerTurn = false;
+            }
+            else if (currentPlayerHP == maxPlayerHP)
+            {
+                Console.SetCursorPosition(0, 15);
+                Console.WriteLine("You are max health and cannot heal anymore");
+            }
+            else if (playerPotions <= 0)
+            {
+                Console.SetCursorPosition(0, 15);
+                Console.WriteLine("You have no more potions left...");
+            }
+        }
+
+        static void PlayerBlocking()
+        {
+
         }
 
         //May conflict with loading later
@@ -202,7 +236,14 @@ namespace TurnBasedRPG
         static void PlayerMenu()
         {
             Console.SetCursorPosition(0, 16);
-            Console.WriteLine("Players Turn");
+            if (playerTurn == true)
+            {
+                Console.WriteLine("Players Turn");
+            }
+            if (playerTurn == false)
+            {
+                Console.WriteLine("Monsters Turn");
+            }
             Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
             Console.WriteLine("█                                                                                                         █");
         if (playerInGameMenu == 1)
