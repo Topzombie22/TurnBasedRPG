@@ -279,6 +279,10 @@ namespace TurnBasedRPG
             else
             {
                 monsterTryingToHeal = true;
+                UIClear();
+                Console.SetCursorPosition(3, 28);
+                Console.WriteLine("The monster is trying to heal... Stop it!");
+                Console.ReadKey();
             }
         }
 
