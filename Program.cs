@@ -95,6 +95,7 @@ namespace TurnBasedRPG
                 {
                     StatScreen();
                     animTimerStarted = false;
+                    shopUIInitialized = false;
                 }
                 if(hasConsoleCleared == false)
                 {
@@ -555,23 +556,7 @@ namespace TurnBasedRPG
         {
             if (shopUIInitialized == false)
             {
-                Console.SetCursorPosition(0, 0);
-                Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
-                Console.WriteLine("█            / /              | |                                     | |                                 █");
-                Console.WriteLine("█           / /               |_|_____________________________________|_|                                 █");
-                Console.WriteLine("█         _/_/_               |                                         |                                 █");
-                Console.WriteLine("█        |  +  |              |         The Only Potion's Shop          |                                 █");
-                Console.WriteLine("█        | / \\ |              |_________________________________________|                                 █");
-                Console.WriteLine("█        |_|_|_|                                                                                          █");
-                Console.WriteLine("█                                                                                                         █");
-                Console.WriteLine("█                                                                                                         █");
-                Console.WriteLine("█                                              ____                                                       █");
-                Console.WriteLine("█                                             /    \\                                                      █");
-                Console.WriteLine("█                                            |      |                                                     █");
-                Console.WriteLine("█                                          __\\     /__                                                    █");
-                Console.WriteLine("█                                        /             \\                                                  █");
-                Console.WriteLine("█                                       |               |                                                 █");
-                Console.WriteLine("█=========================================================================================================█");
+                Console.SetCursorPosition(0, 16);
                 Console.WriteLine("█                                                                                                         █");
                 Console.WriteLine("█                                                                                                         █");
                 Console.WriteLine("█                                                                                                         █");
