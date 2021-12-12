@@ -131,14 +131,14 @@ namespace TurnBasedRPG
         static void PlayerAttack()
         {
             UIClear();
-            Console.SetCursorPosition(0, 15);
+            Console.SetCursorPosition(8, 23);
             currentMonsterHP = currentMonsterHP - playerDamage;
             if (currentMonsterHP < 0)
             {
                 currentMonsterHP = 0;
             }
             Console.WriteLine("The monster took " + playerDamage + " Damage.");
-            System.Threading.Thread.Sleep(1000);
+            Console.ReadKey();
             playerTurn = false;
         }
 
@@ -150,29 +150,33 @@ namespace TurnBasedRPG
                 Random random = new Random();
                 healthPotionHeal = random.Next(0 * playerLvl, 7 * playerLvl);
                 currentPlayerHP = currentPlayerHP + healthPotionHeal;
+                UIClear();
+                Console.SetCursorPosition(8, 23);
+                Console.WriteLine("You healed " + healthPotionHeal + " Damage...");
+                Console.ReadKey();
                 if (healthPotionHeal == 0)
                 {
                     UIClear();
-                    Console.SetCursorPosition(0, 15);
+                    Console.SetCursorPosition(8, 23);
                     Console.WriteLine("That health potion was a dud!");
-                    System.Threading.Thread.Sleep(1000);
+                    Console.ReadKey();
                 }
                 if (currentPlayerHP > maxPlayerHP)
                 {
                     UIClear();
                     currentPlayerHP = maxPlayerHP;
-                    Console.SetCursorPosition(0, 15);
+                    Console.SetCursorPosition(8, 23);
                     Console.WriteLine("Your health has been capped to your max health!");
-                    System.Threading.Thread.Sleep(1000);
+                    Console.ReadKey();
                 }
                 playerTurn = false;
             }
             else if (currentPlayerHP == maxPlayerHP)
             {
                 UIClear();
-                Console.SetCursorPosition(0, 15);
+                Console.SetCursorPosition(8, 23);
                 Console.WriteLine("You are max health and cannot heal anymore");
-                System.Threading.Thread.Sleep(1000);
+                Console.ReadKey();
                 UIClear();
                 healing = false;
                 Sprites();
@@ -181,9 +185,9 @@ namespace TurnBasedRPG
             else if (playerPotions <= 0)
             {
                 UIClear();
-                Console.SetCursorPosition(0, 15);
+                Console.SetCursorPosition(8, 23);
                 Console.WriteLine("You have no more potions left...");
-                System.Threading.Thread.Sleep(1000);
+                Console.ReadKey();
                 UIClear();
                 healing = false;
                 Sprites();
@@ -262,9 +266,9 @@ namespace TurnBasedRPG
         {
             currentPlayerHP = currentPlayerHP - monsterDamage;
             UIClear();
-            Console.SetCursorPosition(0, 15);
+            Console.SetCursorPosition(8, 23);
             Console.WriteLine("The monster attacks you dealing " + monsterDamage + "Damage...");
-            System.Threading.Thread.Sleep(1000);
+            Console.ReadKey();
         }
 
         static void MonsterHeal()
@@ -280,7 +284,7 @@ namespace TurnBasedRPG
             {
                 monsterTryingToHeal = true;
                 UIClear();
-                Console.SetCursorPosition(3, 28);
+                Console.SetCursorPosition(8, 23);
                 Console.WriteLine("The monster is trying to heal... Stop it!");
                 Console.ReadKey();
             }
@@ -443,10 +447,25 @@ namespace TurnBasedRPG
             Console.WriteLine("█                                                                                                         █");
             Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
         }
+
+
+
         static void UIClear()
         {
-            Console.SetCursorPosition(0, 15);
-            Console.WriteLine("                                                                                                                                             ");
+            Console.SetCursorPosition(0, 17);
+            Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
         }
     }
 }
