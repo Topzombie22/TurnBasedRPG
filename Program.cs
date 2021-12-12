@@ -42,6 +42,7 @@ namespace TurnBasedRPG
         static bool waitingForAnim = true;
 
         static int playerInGameMenu = 1;
+        static int shopMenu = 1;
 
 
         static void Main(string[] args)
@@ -50,6 +51,7 @@ namespace TurnBasedRPG
             {
                 if (waitingForAnim == true)
                 {
+                    ShopChoice();
                     ShopUIAnimTimer();
                     ShopKeeperText();
                 }
@@ -525,6 +527,31 @@ namespace TurnBasedRPG
 
             }
         }
+
+        static void ShopChoice()
+        {
+            ConsoleKeyInfo cki;
+            do
+            {
+                cki = Console.ReadKey();
+                if (cki.Key == ConsoleKey.UpArrow && playerInGameMenu != 1)
+                {
+                    shopMenu = shopMenu - 1;
+                }
+                if (cki.Key == ConsoleKey.DownArrow && shopMenu != 5)
+                {
+                    shopMenu = shopMenu + 1;
+                }
+                if (cki.Key == ConsoleKey.Spacebar)
+                {
+                    break;
+                }
+                if (cki.Key == ConsoleKey.Enter)
+                {
+                    break;
+                }
+            } while (cki.Key != ConsoleKey.Spacebar || cki.Key != ConsoleKey.Enter);
+        }
         
         static void ShopKeeperText()
         {
@@ -584,6 +611,47 @@ namespace TurnBasedRPG
                     }
                 }
                 shopKeeperHasSpoke = true;
+            }
+
+            if (shopMenu == 1)
+            {
+                Console.SetCursorPosition(2, 16);
+                Console.Write("→ Buy Potions");
+            }
+            else if (shopMenu != 1)
+            {
+                Console.SetCursorPosition(2, 16);
+                Console.Write("Buy Potions");
+            }
+            else if (shopMenu == 2)
+            {
+                Console.SetCursorPosition(2, 18);
+                Console.Write("→ Back to the fight");
+            }
+            else if (shopMenu != 2)
+            {
+                Console.SetCursorPosition(2, 18);
+                Console.Write("Back to the fight");
+            }
+            else if (shopMenu == 3)
+            {
+                Console.SetCursorPosition(2, 20);
+                Console.Write("→ Save Game");
+            }
+            else if (shopMenu != 3)
+            {
+                Console.SetCursorPosition(2, 20);
+                Console.Write("Save Game");
+            }
+            else if (shopMenu == 4)
+            {
+                Console.SetCursorPosition(2, 22);
+                Console.Write("→ Return to menu");
+            }
+            else if (shopMenu != 4)
+            {
+                Console.SetCursorPosition(2, 22);
+                Console.Write("Return to menu");
             }
         }
 
