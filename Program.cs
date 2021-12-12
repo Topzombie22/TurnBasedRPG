@@ -66,9 +66,6 @@ namespace TurnBasedRPG
                 {
                     MainMenuChoice();
                 }
-                ClearConsole();
-                System.Threading.Thread.Sleep(1000);
-                Console.SetCursorPosition(0, 0);
                 MonsterInitializer();
                 Sprites();
                 while (inFight == true)
@@ -247,9 +244,10 @@ namespace TurnBasedRPG
         static void PlayerInitializer()
         {
             Coins = 20;
-            currentPlayerHP = 10;
             playerLvl = 1;
             playerPotions = 3;
+            maxPlayerHP = 10;
+            currentPlayerHP = maxPlayerHP;
         }
 
         //May conflict with loading later
@@ -846,10 +844,17 @@ namespace TurnBasedRPG
                 inFight = true;
                 onMenu = false;
                 hasConsoleCleared = false;
+                ClearConsole();
+                System.Threading.Thread.Sleep(1000);
+                Console.SetCursorPosition(0, 0);
+                PlayerInitializer();
             }
             else if (inMainMenu == 2)
             {
                 hasConsoleCleared = false;
+                ClearConsole();
+                System.Threading.Thread.Sleep(1000);
+                Console.SetCursorPosition(0, 0);
             }
             else if (inMainMenu == 3)
             {
