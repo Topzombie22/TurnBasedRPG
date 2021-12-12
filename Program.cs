@@ -44,6 +44,7 @@ namespace TurnBasedRPG
         static bool changingScreen;
         static int shopanimLeft = 1;
         static bool waitingForAnim = true;
+        static bool hasConsoleCleared = false;
 
         static int playerInGameMenu = 1;
         static int shopMenu = 1;
@@ -52,8 +53,6 @@ namespace TurnBasedRPG
 
         static void Main(string[] args)
         {
-            GameOver();
-            Console.ReadKey();
             GameLoop();
             Console.WriteLine("FightDome...");
             Console.ReadKey();
@@ -79,16 +78,20 @@ namespace TurnBasedRPG
                 }
                 if (currentPlayerHP <= 0)
                 {
+                    ClearConsole();
+                    System.Threading.Thread.Sleep(1000);
                     GameOver();
-                    return;
                 } 
                 while (inFight == false && inStatScreen == true)
                 {
 
                 }
-                ClearConsole();
-                System.Threading.Thread.Sleep(1000);
-                Console.SetCursorPosition(0, 0);
+                if(hasConsoleCleared == false)
+                {
+                    ClearConsole();
+                    System.Threading.Thread.Sleep(1000);
+                    Console.SetCursorPosition(0, 0);
+                }
                 while (inFight == false && inStatScreen == false && inShop == true)
                 {
                     ShopChoice();
@@ -836,10 +839,11 @@ namespace TurnBasedRPG
             {
                 inFight = true;
                 onMenu = false;
+                hasConsoleCleared = false;
             }
             else if (inMainMenu == 2)
             {
-
+                hasConsoleCleared = false;
             }
             else if (inMainMenu == 3)
             {
@@ -849,6 +853,7 @@ namespace TurnBasedRPG
 
         static void GameOver()
         {
+            Console.SetCursorPosition(0, 0);
             Console.WriteLine("                                 _____  _____");
             Console.WriteLine("                                <     `/     |");
             Console.WriteLine("                                 >          (");
@@ -874,6 +879,10 @@ namespace TurnBasedRPG
             Console.WriteLine("                    _.%%%%%%@@@@@@%%_/%\\_%@@%%@@@@@@@%%%%%%");
             Console.ReadKey();
             onMenu = true;
+            inStatScreen = false;
+            inShop = false;
+            inFight = false;
+            hasConsoleCleared = true;
         }
     
 
