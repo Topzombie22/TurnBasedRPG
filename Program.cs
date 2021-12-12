@@ -255,11 +255,19 @@ namespace TurnBasedRPG
 
         static void PlayerInitializer()
         {
-            Coins = 20;
-            playerLvl = 1;
-            playerPotions = 3;
-            maxPlayerHP = 10;
-            currentPlayerHP = maxPlayerHP;
+            if (Loaded == false)
+            {
+                Coins = 20;
+                playerLvl = 1;
+                playerPotions = 3;
+                maxPlayerHP = 10 * playerLvl;
+                currentPlayerHP = maxPlayerHP;
+            }
+            else if (Loaded == true)
+            {
+
+            }
+
         }
 
         //May conflict with loading later
@@ -295,7 +303,7 @@ namespace TurnBasedRPG
         static void MonsterAI()
         {
             Random random = new Random();
-            monsterChoice = random.Next(1, 6);
+            monsterChoice = random.Next(0, 6);
             if (monsterTryingToHeal == true)
             {
                 MonsterHeal();
@@ -874,10 +882,11 @@ namespace TurnBasedRPG
                 ClearConsole();
                 System.Threading.Thread.Sleep(1000);
                 Console.SetCursorPosition(0, 0);
+                PlayerInitializer();
             }
             else if (inMainMenu == 3)
             {
-                SaveFile();
+                Environment.Exit(0);
             }
         }
 
