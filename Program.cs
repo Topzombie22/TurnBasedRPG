@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Timers;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace TurnBasedRPG
 {
@@ -27,7 +29,7 @@ namespace TurnBasedRPG
         static bool gameOver;
         static bool inFight = true;
         static bool inStatScreen;
-        static bool inShop;
+        static bool inShop = true;
         static bool Loaded;
         static bool playerTurn = true;
         static bool monsterTurn;
@@ -529,10 +531,10 @@ namespace TurnBasedRPG
         static void ShopChoice()
         {
             ConsoleKeyInfo cki;
+            ShopUIAnimTimer();
             do
             {
                 ShopKeeperText();
-                ShopUIAnimTimer();
                 cki = Console.ReadKey();
                 if (cki.Key == ConsoleKey.UpArrow && shopMenu != 1)
                 {
@@ -659,11 +661,14 @@ namespace TurnBasedRPG
         {
             while (inShop == true)
             {
-                using (var timer = new TaskTimer(1000).start)
+                ShopUI();
+                waitingForAnim = false;
+                await Task.Delay(1000);
+                ShopUIAnimSwapper();
             }
         }
 
-        static void ShopUIAnimSwapper(object source, ElapsedEventArgs e)
+        static void ShopUIAnimSwapper()
         {
             if (shopanimLeft == 1)
             {
