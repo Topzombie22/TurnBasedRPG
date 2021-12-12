@@ -2,6 +2,7 @@
 using System.Timers;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Text;
 using System.IO;
 
 namespace TurnBasedRPG
@@ -168,6 +169,7 @@ namespace TurnBasedRPG
             }
             if (playerInGameMenu == 4)
             {
+                SaveFile();
                 Console.WriteLine("You save the game");
                 System.Threading.Thread.Sleep(500);
                 PlayerTurn();
@@ -402,11 +404,36 @@ namespace TurnBasedRPG
         {
             if (File.Exists("Savedata.txt"))
             {
-
+                using (StreamWriter sw = new StreamWriter("Savedata.txt"))
+                {
+                    sw.WriteLine(playerLvl.ToString());
+                    sw.WriteLine(exp.ToString());
+                    sw.WriteLine(currentPlayerHP.ToString());
+                    sw.WriteLine(maxPlayerHP.ToString());
+                    sw.WriteLine(playerPotions.ToString());
+                    sw.WriteLine(Coins.ToString());
+                    sw.WriteLine(currentMonsterHP.ToString());
+                    sw.WriteLine(maxMonsterHP.ToString());
+                    sw.WriteLine(inFight.ToString());
+                    sw.WriteLine(inShop.ToString());
+                }
             }
             else
             {
                 File.Create("Savedata.txt");
+                using (StreamWriter sw = new StreamWriter("Savedata.txt"))
+                {
+                    sw.WriteLine(playerLvl.ToString());
+                    sw.WriteLine(exp.ToString());
+                    sw.WriteLine(currentPlayerHP.ToString());
+                    sw.WriteLine(maxPlayerHP.ToString());
+                    sw.WriteLine(playerPotions.ToString());
+                    sw.WriteLine(Coins.ToString());
+                    sw.WriteLine(currentMonsterHP.ToString());
+                    sw.WriteLine(maxMonsterHP.ToString());
+                    sw.WriteLine(inFight.ToString());
+                    sw.WriteLine(inShop.ToString());
+                }
             }
         }
 
