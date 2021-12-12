@@ -40,6 +40,7 @@ namespace TurnBasedRPG
         static bool shopanimLeftb;
         static bool shopUIInitialized;
         static bool shopKeeperHasSpoke = false;
+        static bool changingScreen;
         static int shopanimLeft = 1;
         static bool waitingForAnim = true;
 
@@ -49,14 +50,6 @@ namespace TurnBasedRPG
 
         static void Main(string[] args)
         {
-            while (inFight == true)
-            {
-                if (waitingForAnim == true)
-                {
-                    ShopChoice();
-                }
-            }
-            Console.ReadKey();
             GameLoop();
             Console.WriteLine("FightDome...");
             Console.ReadKey();
@@ -64,8 +57,8 @@ namespace TurnBasedRPG
 
         static void GameLoop()
         {
-        //    while (gameLoop == true)
-          //  {
+            while (gameLoop == true)
+            {
                 MonsterInitializer();
                 Sprites();
                 while (inFight == true)
@@ -73,15 +66,17 @@ namespace TurnBasedRPG
                     PlayerTurn();
                     MonsterTurn();
                 }
+                ClearConsole();
+                System.Threading.Thread.Sleep(1000);
                 while (inFight == false && inStatScreen == true)
                 {
 
                 }
                 while (inFight == false && inStatScreen == false && inShop == true)
                 {
-
+                    ShopChoice();
                 }
-            //}
+            }
         }
 
         static void PlayerTurn()
@@ -431,6 +426,69 @@ namespace TurnBasedRPG
             Console.Write("          " + currentPlayerHP + "/" + maxPlayerHP + "                                                              " + currentMonsterHP + "/" + maxMonsterHP);
         } 
 
+        static void ClearConsole()
+        {
+            for (int i = 0; i < 35; i++)
+            {
+                Console.SetCursorPosition(0, i);
+                Console.WriteLine("/");
+            }
+            System.Threading.Thread.Sleep(100);
+            for (int i = 0; i < 35; i++)
+            {
+                Console.SetCursorPosition(0, i);
+                Console.WriteLine("               /");
+            }
+            System.Threading.Thread.Sleep(100);
+            for (int i = 0; i < 35; i++)
+            {
+                Console.SetCursorPosition(0, i);
+                Console.WriteLine("                              /");
+            }
+            System.Threading.Thread.Sleep(100);
+            for (int i = 0; i < 35; i++)
+            {
+                Console.SetCursorPosition(0, i);
+                Console.WriteLine("                                             /");
+            }
+            System.Threading.Thread.Sleep(100);
+            for (int i = 0; i < 35; i++)
+            {
+                Console.SetCursorPosition(0, i);
+                Console.WriteLine("                                                            /");
+            }
+            System.Threading.Thread.Sleep(100);
+            for (int i = 0; i < 35; i++)
+            {
+                Console.SetCursorPosition(0, i);
+                Console.WriteLine("                                                                           /");
+            }
+            System.Threading.Thread.Sleep(100);
+            for (int i = 0; i < 35; i++)
+            {
+                Console.SetCursorPosition(0, i);
+                Console.WriteLine("                                                                                          /");
+            }
+            System.Threading.Thread.Sleep(100);
+            for (int i = 0; i < 35; i++)
+            {
+                Console.SetCursorPosition(0, i);
+                Console.WriteLine("                                                                                                         /");
+            }
+            System.Threading.Thread.Sleep(100);
+            for (int i = 0; i < 35; i++)
+            {
+                Console.SetCursorPosition(0, i);
+                Console.WriteLine("                                                                                                                        /");
+            }
+            System.Threading.Thread.Sleep(100);
+            for (int i = 0; i < 35; i++)
+            {
+                Console.SetCursorPosition(0, i);
+                Console.WriteLine("                                                                                                                         ");
+            }
+        }
+
         static void ShopUI()
         {
             if (shopUIInitialized == false)
@@ -722,8 +780,6 @@ namespace TurnBasedRPG
             {
                 Console.WriteLine("█  Attack                                                                                                 █");
             }
-
-
             Console.WriteLine("█                                                                                                         █");
         if (playerInGameMenu == 2)
             {
