@@ -17,6 +17,7 @@ namespace TurnBasedRPG
         static int playerLvl = 2;
         static int playerPotions = 3;
         static int monsterChoice;
+        static bool gameLoop = true;
         static bool onMenu;
         static bool inGame;
         static bool monsterTryingToHeal;
@@ -44,21 +45,24 @@ namespace TurnBasedRPG
 
         static void GameLoop()
         {
-            MonsterInitializer();
-            Sprites();
-            while (inFight == true)
-            {
-                PlayerTurn();
-                MonsterTurn();
-            } 
-            while (inFight == false && inStatScreen == true)
-            {
+        //    while (gameLoop == true)
+          //  {
+                MonsterInitializer();
+                Sprites();
+                while (inFight == true)
+                {
+                    PlayerTurn();
+                    MonsterTurn();
+                }
+                while (inFight == false && inStatScreen == true)
+                {
 
-            }
-            while (inFight == false && inStatScreen == false && inShop == true)
-            {
+                }
+                while (inFight == false && inStatScreen == false && inShop == true)
+                {
 
-            }
+                }
+            //}
         }
 
         static void PlayerTurn()
@@ -243,6 +247,11 @@ namespace TurnBasedRPG
             {
                 MonsterHeal();
             }
+            else if (currentMonsterHP == maxMonsterHP)
+            {
+                MonsterAttack();
+                return;
+            }
             else if (monsterChoice >= 4 && currentMonsterHP >= halfMonsterHP)
             {
                 MonsterAttack();
@@ -267,8 +276,18 @@ namespace TurnBasedRPG
             currentPlayerHP = currentPlayerHP - monsterDamage;
             UIClear();
             Console.SetCursorPosition(8, 23);
-            Console.WriteLine("The monster attacks you dealing " + monsterDamage + "Damage...");
+            Console.WriteLine("The monster attacks you dealing " + monsterDamage + " Damage...");
             Console.ReadKey();
+            if (currentPlayerHP <= 0)
+            {
+                currentPlayerHP = 0;
+                Sprites();
+                UIClear();
+                Console.SetCursorPosition(8, 23);
+                Console.WriteLine("The monster has killed you...");
+                Console.ReadKey();
+                inFight = false;
+            }
         }
 
         static void MonsterHeal()
@@ -279,6 +298,14 @@ namespace TurnBasedRPG
                 monsterHeal = random.Next(2 * playerLvl, 10 * playerLvl);
                 currentMonsterHP = currentMonsterHP + monsterHeal;
                 monsterTryingToHeal = false;
+                if(currentMonsterHP > maxMonsterHP)
+                {
+                    currentMonsterHP = maxMonsterHP;
+                }
+                UIClear();
+                Console.SetCursorPosition(8, 23);
+                Console.WriteLine("The monster healed for " + monsterHeal + " Damage...");
+                Console.ReadKey();
             }
             else
             {
