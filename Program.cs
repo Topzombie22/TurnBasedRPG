@@ -2,6 +2,7 @@
 using System.Timers;
 using System.Threading;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace TurnBasedRPG
 {
@@ -46,10 +47,13 @@ namespace TurnBasedRPG
 
         static int playerInGameMenu = 1;
         static int shopMenu = 1;
+        static int inMainMenu = 1;
 
 
         static void Main(string[] args)
         {
+            MainMenu();
+            Console.ReadKey();
             GameLoop();
             Console.WriteLine("FightDome...");
             Console.ReadKey();
@@ -252,7 +256,7 @@ namespace TurnBasedRPG
             UIClear();
             Sprites();
         }
-        
+
         static void MonsterAI()
         {
             Random random = new Random();
@@ -312,7 +316,7 @@ namespace TurnBasedRPG
                 monsterHeal = random.Next(2 * playerLvl, 10 * playerLvl);
                 currentMonsterHP = currentMonsterHP + monsterHeal;
                 monsterTryingToHeal = false;
-                if(currentMonsterHP > maxMonsterHP)
+                if (currentMonsterHP > maxMonsterHP)
                 {
                     currentMonsterHP = maxMonsterHP;
                 }
@@ -345,6 +349,18 @@ namespace TurnBasedRPG
             attacking = false;
             healing = false;
             defending = false;
+        }
+
+        static void SaveFile()
+        {
+            if (File.Exists("Savedata.txt"))
+            {
+
+            }
+            else
+            {
+                File.Create("Savedata.txt");
+            }
         }
 
         static void Sprites()
@@ -611,6 +627,23 @@ namespace TurnBasedRPG
                     break;
                 }
             } while (cki.Key != ConsoleKey.Spacebar || cki.Key != ConsoleKey.Enter);
+            if (shopMenu == 1)
+            {
+
+            }
+            else if (shopMenu == 2)
+            {
+                inShop = false;
+                inFight = true;
+            }
+            else if (shopMenu == 2)
+            {
+                SaveFile();
+            }
+            else if (shopMenu == 2)
+            {
+
+            }
         }
         
         static void ShopKeeperText()
@@ -756,6 +789,46 @@ namespace TurnBasedRPG
                     ShopUI();
                     waitingForAnim = true;
                 }
+            }
+        }
+
+        static void MainMenu()
+        {
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine("       __   __    __    _______   _______  _______ .______      .__   __.      ___      __    __  .___________.");
+            Console.WriteLine("      |  | |  |  |  |  /  _____| /  _____||   ____||   _  \\     |  \\ |  |     /   \\    |  |  |  | |           |");
+            Console.WriteLine("      |  | |  |  |  | |  |  __  |  |  __  |  |__   |  |_)  |    |   \\|  |    /  ^  \\   |  |  |  | `---|  |----`");
+            Console.WriteLine(".--.  |  | |  |  |  | |  | |_ | |  | |_ | |   __|  |      /     |  . `  |   /  /_\\  \\  |  |  |  |     |  |     ");
+            Console.WriteLine("|  `--'  | |  `--'  | |  |__| | |  |__| | |  |____ |  |\\  \\----.|  |\\   |  /  _____  \\ |  `--'  |     |  |     ");
+            Console.WriteLine(" \\______/   \\______/   \\______|  \\______| |_______|| _| `._____||__| \\__| /__/     \\__\\ \\______/      |__|     ");
+            Console.WriteLine("                                                                                                               ");
+            Console.WriteLine("");
+            Console.SetCursorPosition(2, 10);
+            if (inMainMenu == 1)
+            {
+                Console.WriteLine("→ Start Game");
+            }
+            if (inMainMenu != 1)
+            {
+                Console.WriteLine("Start Game     ");
+            }
+            Console.WriteLine("");
+            if (inMainMenu == 2)
+            {
+                Console.WriteLine("→ Load Game");
+            }
+            if (inMainMenu != 2)
+            {
+                Console.WriteLine("Load Game     ");
+            }
+            Console.WriteLine("");
+            if (inMainMenu == 3)
+            {
+                Console.WriteLine("→ Quit Game");
+            }
+            if (inMainMenu != 3)
+            {
+                Console.WriteLine("Quit Game     ");
             }
         }
 
