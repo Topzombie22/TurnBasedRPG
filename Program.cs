@@ -531,31 +531,57 @@ namespace TurnBasedRPG
             if (shopKeeperHasSpoke == false)
             {
                 Random random = new Random();
+                string line;
                 shopKeeperLines = random.Next(1, 5);
                 if (shopKeeperLines == 1)
                 {
                     Console.SetCursorPosition(28, 18);
-                    Console.WriteLine("Buy some potions or get lost...");
+                    line = "Buy some potions or get lost...";
+                    for (int i = 0; i < line.Length; i++)
+                    {
+                        Console.Write(line[i]);
+                        System.Threading.Thread.Sleep(1);
+                    }
                 }
                 if (shopKeeperLines == 2)
                 {
                     Console.SetCursorPosition(28, 18);
-                    Console.WriteLine("If you got the coin, I got the potions...");
+                    line = "If you got the coin, I got the potions...";
+                    for (int i = 0; i < line.Length; i++)
+                    {
+                        Console.Write(line[i]);
+                        System.Threading.Thread.Sleep(1);
+                    }
                 }
                 if (shopKeeperLines == 3)
                 {
                     Console.SetCursorPosition(28, 18);
-                    Console.WriteLine("You look like someone I used to know... Hes dead now!");
+                    line = "You look like someone I used to know... Hes dead now!";
+                    for (int i = 0; i < line.Length; i++)
+                    {
+                        Console.Write(line[i]);
+                        System.Threading.Thread.Sleep(1);
+                    }
                 }
                 if (shopKeeperLines == 4)
                 {
                     Console.SetCursorPosition(28, 18);
-                    Console.WriteLine("You new here? No loittering, get yer' potions and get out!");
+                    line = "You new here? No loittering, get yer' potions and get out!";
+                    for (int i = 0; i < line.Length; i++)
+                    {
+                        Console.Write(line[i]);
+                        System.Threading.Thread.Sleep(1);
+                    }
                 }
                 if (shopKeeperLines == 5)
                 {
                     Console.SetCursorPosition(28, 18);
-                    Console.WriteLine("Don't worry, your gold is safe with me!");
+                    line = "Don't worry, your gold is safe with me!";
+                    for (int i = 0; i < line.Length; i++)
+                    {
+                        Console.Write(line[i]);
+                        System.Threading.Thread.Sleep(1);
+                    }
                 }
                 shopKeeperHasSpoke = true;
             }
