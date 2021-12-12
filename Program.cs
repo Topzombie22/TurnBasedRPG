@@ -48,6 +48,7 @@ namespace TurnBasedRPG
         static bool changingScreen;
         static int shopanimLeft = 1;
         static bool waitingForAnim = true;
+        static bool animTimerStarted;
         static bool hasConsoleCleared = false;
 
         static int playerInGameMenu = 1;
@@ -92,6 +93,7 @@ namespace TurnBasedRPG
                 while (inFight == false && inStatScreen == true)
                 {
                     StatScreen();
+                    animTimerStarted = false;
                 }
                 if(hasConsoleCleared == false)
                 {
@@ -639,9 +641,14 @@ namespace TurnBasedRPG
         static void ShopChoice()
         {
             ConsoleKeyInfo cki;
-            ShopUIAnimTimer();
+            if (animTimerStarted == false)
+            {
+                ShopUIAnimTimer();
+                animTimerStarted = true;
+            }
             do
             {
+
                 ShopKeeperText();
                 cki = Console.ReadKey();
                 if (cki.Key == ConsoleKey.UpArrow && shopMenu != 1)
