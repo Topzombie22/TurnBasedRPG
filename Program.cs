@@ -24,7 +24,7 @@ namespace TurnBasedRPG
         static int playerPotions = 3;
         static int monsterChoice;
         static bool gameLoop = true;
-        static bool onMenu;
+        static bool onMenu = true;
         static bool inGame;
         static bool monsterTryingToHeal;
         static bool gameOver;
@@ -52,7 +52,8 @@ namespace TurnBasedRPG
 
         static void Main(string[] args)
         {
-            MainMenuChoice();
+            GameOver();
+            Console.ReadKey();
             GameLoop();
             Console.WriteLine("FightDome...");
             Console.ReadKey();
@@ -62,6 +63,13 @@ namespace TurnBasedRPG
         {
             while (gameLoop == true)
             {
+                while (onMenu == true)
+                {
+                    MainMenuChoice();
+                }
+                ClearConsole();
+                System.Threading.Thread.Sleep(1000);
+                Console.SetCursorPosition(0, 0);
                 MonsterInitializer();
                 Sprites();
                 while (inFight == true)
@@ -69,18 +77,25 @@ namespace TurnBasedRPG
                     PlayerTurn();
                     MonsterTurn();
                 }
+                if (currentPlayerHP <= 0)
+                {
+                    GameOver();
+                    return;
+                } 
                 while (inFight == false && inStatScreen == true)
                 {
 
                 }
                 ClearConsole();
                 System.Threading.Thread.Sleep(1000);
+                Console.SetCursorPosition(0, 0);
                 while (inFight == false && inStatScreen == false && inShop == true)
                 {
                     ShopChoice();
                 }
                 ClearConsole();
                 System.Threading.Thread.Sleep(1000);
+                Console.SetCursorPosition(0, 0);
             }
         }
 
@@ -820,6 +835,7 @@ namespace TurnBasedRPG
             if (inMainMenu == 1)
             {
                 inFight = true;
+                onMenu = false;
             }
             else if (inMainMenu == 2)
             {
@@ -829,6 +845,35 @@ namespace TurnBasedRPG
             {
                 SaveFile();
             }
+        }
+
+        static void GameOver()
+        {
+            Console.WriteLine("                                 _____  _____");
+            Console.WriteLine("                                <     `/     |");
+            Console.WriteLine("                                 >          (");
+            Console.WriteLine("                                |   _     _  |");
+            Console.WriteLine("                                |  |_) | |_) |");
+            Console.WriteLine("                                |  | \\ | |   |");
+            Console.WriteLine("                                |            |");
+            Console.WriteLine("                 ______.______%_|            |__________  _____");
+            Console.WriteLine("               _/                                       \\|     |");
+            Console.WriteLine("              |               Random Adventurer                <");
+            Console.WriteLine("              |_____.-._________              ____/|___________|");
+            Console.WriteLine("                                | " + DateTime.Now.ToString("yyyy-MM-dd") + " |");
+            Console.WriteLine("                                |  " + DateTime.Now.ToString("hh:mm:ss") + "  |");
+            Console.WriteLine("                                |            |");
+            Console.WriteLine("                                |            |");
+            Console.WriteLine("                                |   _        <");
+            Console.WriteLine("                                |__/         |");
+            Console.WriteLine("                                 / `--.      |");
+            Console.WriteLine("                               %|            |%");
+            Console.WriteLine("                           |/.%%|          -< @%%%");
+            Console.WriteLine("                           `\\%`@|     v      |@@%@%%");
+            Console.WriteLine("                         .%%%@@@|%    |    % @@@%%@%%%%");
+            Console.WriteLine("                    _.%%%%%%@@@@@@%%_/%\\_%@@%%@@@@@@@%%%%%%");
+            Console.ReadKey();
+            onMenu = true;
         }
     
 
@@ -843,7 +888,7 @@ namespace TurnBasedRPG
             Console.WriteLine(" \\______/   \\______/   \\______|  \\______| |_______|| _| `._____||__| \\__| /__/     \\__\\ \\______/      |__|     ");
             Console.WriteLine("                                                                                                               ");
             Console.WriteLine("");
-            Console.SetCursorPosition(2, 10);
+            Console.SetCursorPosition(0, 10);
             if (inMainMenu == 1)
             {
                 Console.WriteLine("→ Start Game");
