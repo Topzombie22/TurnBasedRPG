@@ -384,6 +384,7 @@ namespace TurnBasedRPG
             if (currentMonsterHP <= 0)
             {
                 inStatScreen = true;
+                monsterTryingToHeal = false;
                 inFight = false;
                 return;
             }
@@ -685,6 +686,8 @@ namespace TurnBasedRPG
             {
                 inShop = false;
                 inFight = true;
+                shopKeeperHasSpoke = false;
+                shopUIInitialized = false;
             }
             else if (shopMenu == 3)
             {
@@ -694,6 +697,8 @@ namespace TurnBasedRPG
             {
                 onMenu = true;
                 inShop = false;
+                shopKeeperHasSpoke = false;
+                shopUIInitialized = false;
             }
         }
         
