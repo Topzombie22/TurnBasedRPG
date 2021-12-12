@@ -18,6 +18,7 @@ namespace TurnBasedRPG
         static int playerDamage = 10;
         static int healthPotionHeal;
         static int Coins;
+        static int lootedCoins;
         static int shopKeeperLines;
         static int blockReduction;
         static int maxPlayerLvl = 10;
@@ -675,7 +676,8 @@ namespace TurnBasedRPG
             }
             else if (shopMenu == 4)
             {
-
+                onMenu = true;
+                inShop = false;
             }
         }
         
@@ -900,28 +902,34 @@ namespace TurnBasedRPG
             Random random = new Random();
             if (playerLvl >= maxPlayerLvl)
             {
-                Console.SetCursorPosition(20, 6);
+                Console.SetCursorPosition(10, 6);
                 Console.Write("You are max level and have not been awarded anymore EXP");
             }
             else if (playerLvl < maxPlayerLvl)
             {
                 recievedEXP = random.Next(20, 50);
                 exp = exp + recievedEXP;
-                Console.SetCursorPosition(20, 5);
+                Console.SetCursorPosition(10, 5);
                 Console.Write("You have been awarded " + recievedEXP + " exp for defeating the monster!");
                 if (exp < 100)
                 {
-                    Console.SetCursorPosition(20, 6);
+                    Console.SetCursorPosition(10, 6);
                     Console.Write("You need " + (100 - exp) + " exp to level up!");
                 }
                 if (exp >= 100)
                 {
                     exp = exp - 100;
                     playerLvl = playerLvl + 1;
-                    Console.SetCursorPosition(20, 6);
-                    Console.Write("You leveled up! You need " + (100 - exp) + " for your next level");
+                    Console.SetCursorPosition(10, 6);
+                    Console.Write("You leveled up! You need " + (100 - exp) + " exp for your next level");
                 }
             }
+            Console.SetCursorPosition(10, 7);
+            lootedCoins = random.Next(10, 50);
+            Coins = Coins + lootedCoins;
+            Console.Write("You found " + lootedCoins + " Coins!");
+            Console.SetCursorPosition(10, 8);
+            Console.Write("You are currently level " + playerLvl + " with a total of " + Coins + " Coins and " + playerPotions + " Health potions left.");
         }
 
         static void GameOver()
