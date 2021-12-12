@@ -188,12 +188,15 @@ namespace TurnBasedRPG
             if (playerPotions > 0 && currentPlayerHP < maxPlayerHP)
             {
                 Sprites();
+                playerPotions = playerPotions - 1;
                 Random random = new Random();
                 healthPotionHeal = random.Next(0 * playerLvl, 7 * playerLvl);
                 currentPlayerHP = currentPlayerHP + healthPotionHeal;
                 UIClear();
                 Console.SetCursorPosition(8, 23);
                 Console.WriteLine("You healed " + healthPotionHeal + " Damage...");
+                Console.SetCursorPosition(8, 24);
+                Console.WriteLine("You have " + playerPotions + " Potions Left!");
                 Console.ReadKey();
                 if (healthPotionHeal == 0)
                 {
@@ -241,9 +244,12 @@ namespace TurnBasedRPG
             playerTurn = false;
         }
 
-        static void PlayerBlocking()
+        static void PlayerInitializer()
         {
-
+            Coins = 20;
+            currentPlayerHP = 10;
+            playerLvl = 1;
+            playerPotions = 3;
         }
 
         //May conflict with loading later
