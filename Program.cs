@@ -52,8 +52,6 @@ namespace TurnBasedRPG
                 if (waitingForAnim == true)
                 {
                     ShopChoice();
-                    ShopUIAnimTimer();
-                    ShopKeeperText();
                 }
             }
             Console.ReadKey();
@@ -533,12 +531,14 @@ namespace TurnBasedRPG
             ConsoleKeyInfo cki;
             do
             {
+                ShopKeeperText();
+                ShopUIAnimTimer();
                 cki = Console.ReadKey();
-                if (cki.Key == ConsoleKey.UpArrow && playerInGameMenu != 1)
+                if (cki.Key == ConsoleKey.UpArrow && shopMenu != 1)
                 {
                     shopMenu = shopMenu - 1;
                 }
-                if (cki.Key == ConsoleKey.DownArrow && shopMenu != 5)
+                if (cki.Key == ConsoleKey.DownArrow && shopMenu != 4)
                 {
                     shopMenu = shopMenu + 1;
                 }
@@ -618,51 +618,49 @@ namespace TurnBasedRPG
                 Console.SetCursorPosition(2, 16);
                 Console.Write("→ Buy Potions");
             }
-            else if (shopMenu != 1)
+            if (shopMenu != 1)
             {
                 Console.SetCursorPosition(2, 16);
-                Console.Write("Buy Potions");
+                Console.Write("Buy Potions  ");
             }
-            else if (shopMenu == 2)
+            if (shopMenu == 2)
             {
                 Console.SetCursorPosition(2, 18);
                 Console.Write("→ Back to the fight");
             }
-            else if (shopMenu != 2)
+            if (shopMenu != 2)
             {
                 Console.SetCursorPosition(2, 18);
-                Console.Write("Back to the fight");
+                Console.Write("Back to the fight  ");
             }
-            else if (shopMenu == 3)
+            if (shopMenu == 3)
             {
                 Console.SetCursorPosition(2, 20);
                 Console.Write("→ Save Game");
             }
-            else if (shopMenu != 3)
+            if (shopMenu != 3)
             {
                 Console.SetCursorPosition(2, 20);
-                Console.Write("Save Game");
+                Console.Write("Save Game  ");
             }
-            else if (shopMenu == 4)
+            if (shopMenu == 4)
             {
                 Console.SetCursorPosition(2, 22);
                 Console.Write("→ Return to menu");
             }
-            else if (shopMenu != 4)
+            if (shopMenu != 4)
             {
                 Console.SetCursorPosition(2, 22);
-                Console.Write("Return to menu");
+                Console.Write("Return to menu  ");
             }
         }
 
-        static void ShopUIAnimTimer()
+        static async void ShopUIAnimTimer()
         {
-            ShopUI();
-            waitingForAnim = false;
-            Timer t = new Timer(1000);
-            t.AutoReset = false;
-            t.Elapsed += new ElapsedEventHandler(ShopUIAnimSwapper);
-            t.Start();
+            while (inShop == true)
+            {
+                using (var timer = new TaskTimer(1000).start)
+            }
         }
 
         static void ShopUIAnimSwapper(object source, ElapsedEventArgs e)
