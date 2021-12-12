@@ -58,6 +58,7 @@ namespace TurnBasedRPG
 
         static void Main(string[] args)
         {
+            FullScreen();
             GameLoop();
             Console.WriteLine("FightDome...");
             Console.ReadKey();
@@ -678,7 +679,7 @@ namespace TurnBasedRPG
             } while (cki.Key != ConsoleKey.Spacebar || cki.Key != ConsoleKey.Enter);
             if (shopMenu == 1)
             {
-
+                PurchasePotion();
             }
             else if (shopMenu == 2)
             {
@@ -795,6 +796,26 @@ namespace TurnBasedRPG
             {
                 Console.SetCursorPosition(2, 22);
                 Console.Write("Return to menu  ");
+            }
+        }
+
+        static void PurchasePotion()
+        {
+            if (Coins >= 25)
+            {
+                Console.SetCursorPosition(28, 17);
+                playerPotions = playerPotions + 1;
+                Coins = Coins - 20;
+                Console.Write("Thanks for the buisness!");
+                Console.SetCursorPosition(28, 18);
+                Console.Write("You have a total of " + playerPotions + " potions and " + Coins + " Coins left!        ");
+            }
+            else if (Coins < 24)
+            {
+                Console.SetCursorPosition(28, 17);
+                Console.Write("Scram kid, you don't got the cash...");
+                Console.SetCursorPosition(28, 18);
+                Console.Write("You have a total of " + playerPotions + " potions and " + Coins + " Coins!            ");
             }
         }
 
@@ -1104,5 +1125,12 @@ namespace TurnBasedRPG
             Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
         }
 
+        static void FullScreen()
+        {
+            Console.WriteLine("We suggest full screen for this experiance!");
+            Console.WriteLine("Press Alt + Enter to go full screen!");
+            System.Threading.Thread.Sleep(2000);
+            Console.Clear();
+        }
     }
 }
