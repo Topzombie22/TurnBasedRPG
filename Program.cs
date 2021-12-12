@@ -20,7 +20,10 @@ namespace TurnBasedRPG
         static int Coins;
         static int shopKeeperLines;
         static int blockReduction;
+        static int maxPlayerLvl = 10;
         static int playerLvl = 2;
+        static int exp;
+        static int recievedEXP;
         static int playerPotions = 3;
         static int monsterChoice;
         static bool gameLoop = true;
@@ -78,10 +81,16 @@ namespace TurnBasedRPG
                     ClearConsole();
                     System.Threading.Thread.Sleep(1000);
                     GameOver();
-                } 
+                }
+                if (hasConsoleCleared == false)
+                {
+                    ClearConsole();
+                    System.Threading.Thread.Sleep(1000);
+                    Console.SetCursorPosition(0, 0);
+                }
                 while (inFight == false && inStatScreen == true)
                 {
-
+                    StatScreen();
                 }
                 if(hasConsoleCleared == false)
                 {
@@ -362,6 +371,7 @@ namespace TurnBasedRPG
         {
             if (currentMonsterHP <= 0)
             {
+                inStatScreen = true;
                 inFight = false;
                 return;
             }
@@ -859,6 +869,58 @@ namespace TurnBasedRPG
             else if (inMainMenu == 3)
             {
                 SaveFile();
+            }
+        }
+
+        static void StatScreen()
+        {
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("█                                                                                                         █");
+            Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
+            StatAdjuster();
+            inStatScreen = false;
+            inShop = true;
+            hasConsoleCleared = false;
+            Console.ReadKey();
+        }
+
+        static void StatAdjuster()
+        {
+            Random random = new Random();
+            if (playerLvl >= maxPlayerLvl)
+            {
+                Console.SetCursorPosition(20, 6);
+                Console.Write("You are max level and have not been awarded anymore EXP");
+            }
+            else if (playerLvl < maxPlayerLvl)
+            {
+                recievedEXP = random.Next(20, 50);
+                exp = exp + recievedEXP;
+                Console.SetCursorPosition(20, 5);
+                Console.Write("You have been awarded " + recievedEXP + " exp for defeating the monster!");
+                if (exp < 100)
+                {
+                    Console.SetCursorPosition(20, 6);
+                    Console.Write("You need " + (100 - exp) + " exp to level up!");
+                }
+                if (exp >= 100)
+                {
+                    exp = exp - 100;
+                    playerLvl = playerLvl + 1;
+                    Console.SetCursorPosition(20, 6);
+                    Console.Write("You leveled up! You need " + (100 - exp) + " for your next level");
+                }
             }
         }
 
