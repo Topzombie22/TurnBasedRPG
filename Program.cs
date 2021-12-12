@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 
 namespace TurnBasedRPG
 {
@@ -32,12 +33,16 @@ namespace TurnBasedRPG
         static bool attacking;
         static bool defending;
         static bool healing;
+        static bool shopanimLeft;
 
         static int playerInGameMenu = 1;
 
 
         static void Main(string[] args)
         {
+            ShopUIAnimTimer();
+            ShopUI();
+            Console.ReadKey();
             GameLoop();
             Console.WriteLine("FightDome...");
             Console.ReadKey();
@@ -410,6 +415,84 @@ namespace TurnBasedRPG
             Console.Write("                                                                                                                                                           ");
             Console.SetCursorPosition(0, 14);
             Console.Write("          " + currentPlayerHP + "/" + maxPlayerHP + "                                                              " + currentMonsterHP + "/" + maxMonsterHP);
+        } 
+
+        static void ShopUI()
+        {
+            if (shopanimLeft == true)
+            {
+                Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
+                Console.WriteLine("█            / /              | |                                     | |                                 █");
+                Console.WriteLine("█           / /               |_|_____________________________________|_|                                 █");
+                Console.WriteLine("█         _/_/_               |                                         |                                 █");
+                Console.WriteLine("█        |  +  |              |         The Only Potion's Shop          |                                 █");
+                Console.WriteLine("█        | / \\ |              |_________________________________________|                                 █");
+                Console.WriteLine("█        |_|_|_|                                                                                          █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                              ____                                                       █");
+                Console.WriteLine("█                                             /    \\                                                      █");
+                Console.WriteLine("█                                            |      |                                                     █");
+                Console.WriteLine("█                                          __\\     /__                                                    █");
+                Console.WriteLine("█                                        /             \\                                                  █");
+                Console.WriteLine("█                                       |               |                                                 █");
+                Console.WriteLine("█=========================================================================================================█");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
+            }
+            else if (shopanimLeft == false)
+            {
+                Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
+                Console.WriteLine("█            \\ \\              | |                                     | |                                 █");
+                Console.WriteLine("█             \\ \\             |_|_____________________________________|_|                                 █");
+                Console.WriteLine("█             _\\_\\_           |                                         |                                 █");
+                Console.WriteLine("█             |  +  |         |         The Only Potion's Shop          |                                 █");
+                Console.WriteLine("█             | / \\ |         |_________________________________________|                                 █");
+                Console.WriteLine("█             |_|_|_|                                                                                     █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                              ____                                                       █");
+                Console.WriteLine("█                                             /    \\                                                      █");
+                Console.WriteLine("█                                            |      |                                                     █");
+                Console.WriteLine("█                                          __\\     /__                                                    █");
+                Console.WriteLine("█                                        /             \\                                                  █");
+                Console.WriteLine("█                                       |               |                                                 █");
+                Console.WriteLine("█=========================================================================================================█");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
+            }
+        }
+
+        static void ShopUIAnimTimer()
+        {
+            Timer t = new Timer(1000);
+            t.AutoReset = true;
+            t.Elapsed += new ElapsedEventHandler(ShopUIAnimSwapper);
+            t.Start();
+        }
+
+        static void ShopUIAnimSwapper(object source, ElapsedEventArgs e)
+        {
+            if (shopanimLeft == true)
+            {
+                shopanimLeft = false;
+            }
+            else if (shopanimLeft == false)
+            {
+                shopanimLeft = true;
+            }
         }
 
         static void PlayerMenu()
@@ -494,5 +577,6 @@ namespace TurnBasedRPG
             Console.WriteLine("█                                                                                                         █");
             Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
         }
+
     }
 }
