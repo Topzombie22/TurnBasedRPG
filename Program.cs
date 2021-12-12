@@ -33,7 +33,8 @@ namespace TurnBasedRPG
         static bool attacking;
         static bool defending;
         static bool healing;
-        static bool shopanimLeft;
+        static bool shopanimLeftb;
+        static int shopanimLeft = 1;
         static bool waitingForAnim = true;
 
         static int playerInGameMenu = 1;
@@ -425,7 +426,36 @@ namespace TurnBasedRPG
 
         static void ShopUI()
         {
-            if (shopanimLeft == true)
+
+            if (shopanimLeft == 2)
+            {
+                Console.SetCursorPosition(0, 0);
+                Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
+                Console.WriteLine("█            | |              | |                                     | |                                 █");
+                Console.WriteLine("█            | |              |_|_____________________________________|_|                                 █");
+                Console.WriteLine("█           _|_|_             |                                         |                                 █");
+                Console.WriteLine("█          |  +  |            |         The Only Potion's Shop          |                                 █");
+                Console.WriteLine("█          | / \\ |            |_________________________________________|                                 █");
+                Console.WriteLine("█          |_|_|_|                                                                                        █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                              ____                                                       █");
+                Console.WriteLine("█                                             /    \\                                                      █");
+                Console.WriteLine("█                                            |      |                                                     █");
+                Console.WriteLine("█                                          __\\     /__                                                    █");
+                Console.WriteLine("█                                        /             \\                                                  █");
+                Console.WriteLine("█                                       |               |                                                 █");
+                Console.WriteLine("█=========================================================================================================█");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
+            }
+            else if (shopanimLeft == 1)
             {
                 Console.SetCursorPosition(0, 0);
                 Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
@@ -453,7 +483,7 @@ namespace TurnBasedRPG
                 Console.WriteLine("█                                                                                                         █");
                 Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
             }
-            else if (shopanimLeft == false)
+            else if (shopanimLeft == 3)
             {
                 Console.SetCursorPosition(0, 0);
                 Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
@@ -485,6 +515,7 @@ namespace TurnBasedRPG
 
         static void ShopUIAnimTimer()
         {
+            ShopUI();
             waitingForAnim = false;
             Timer t = new Timer(1000);
             t.AutoReset = false;
@@ -494,17 +525,34 @@ namespace TurnBasedRPG
 
         static void ShopUIAnimSwapper(object source, ElapsedEventArgs e)
         {
-            if (shopanimLeft == true)
+            if (shopanimLeft == 1)
             {
-                shopanimLeft = false;
+                shopanimLeft = 2;
                 ShopUI();
+                shopanimLeftb = true;
                 waitingForAnim = true;
             }
-            else if (shopanimLeft == false)
+            else if (shopanimLeft == 3)
             {
-                shopanimLeft = true;
+                shopanimLeft = 2;
                 ShopUI();
                 waitingForAnim = true;
+                shopanimLeftb = false;
+            }
+            else if (shopanimLeft == 2)
+            {
+                if (shopanimLeftb == true)
+                {
+                    shopanimLeft = 3;
+                    ShopUI();
+                    waitingForAnim = true;
+                }
+                else if (shopanimLeftb == false)
+                {
+                    shopanimLeft = 1;
+                    ShopUI();
+                    waitingForAnim = true;
+                }
             }
         }
 
