@@ -28,7 +28,7 @@ namespace TurnBasedRPG
         static bool inGame;
         static bool monsterTryingToHeal;
         static bool gameOver;
-        static bool inFight = true;
+        static bool inFight;
         static bool inStatScreen;
         static bool inShop = true;
         static bool Loaded;
@@ -52,8 +52,7 @@ namespace TurnBasedRPG
 
         static void Main(string[] args)
         {
-            MainMenu();
-            Console.ReadKey();
+            MainMenuChoice();
             GameLoop();
             Console.WriteLine("FightDome...");
             Console.ReadKey();
@@ -70,16 +69,18 @@ namespace TurnBasedRPG
                     PlayerTurn();
                     MonsterTurn();
                 }
-                ClearConsole();
-                System.Threading.Thread.Sleep(1000);
                 while (inFight == false && inStatScreen == true)
                 {
 
                 }
+                ClearConsole();
+                System.Threading.Thread.Sleep(1000);
                 while (inFight == false && inStatScreen == false && inShop == true)
                 {
                     ShopChoice();
                 }
+                ClearConsole();
+                System.Threading.Thread.Sleep(1000);
             }
         }
 
@@ -636,11 +637,11 @@ namespace TurnBasedRPG
                 inShop = false;
                 inFight = true;
             }
-            else if (shopMenu == 2)
+            else if (shopMenu == 3)
             {
                 SaveFile();
             }
-            else if (shopMenu == 2)
+            else if (shopMenu == 4)
             {
 
             }
@@ -791,6 +792,45 @@ namespace TurnBasedRPG
                 }
             }
         }
+
+        static void MainMenuChoice()
+        {
+            ConsoleKeyInfo cki;
+            do
+            {
+                MainMenu();
+                cki = Console.ReadKey();
+                if (cki.Key == ConsoleKey.UpArrow && inMainMenu != 1)
+                {
+                    inMainMenu = inMainMenu - 1;
+                }
+                if (cki.Key == ConsoleKey.DownArrow && inMainMenu != 3)
+                {
+                    inMainMenu = inMainMenu + 1;
+                }
+                if (cki.Key == ConsoleKey.Spacebar)
+                {
+                    break;
+                }
+                if (cki.Key == ConsoleKey.Enter)
+                {
+                    break;
+                }
+            } while (cki.Key != ConsoleKey.Spacebar || cki.Key != ConsoleKey.Enter);
+            if (inMainMenu == 1)
+            {
+                inFight = true;
+            }
+            else if (inMainMenu == 2)
+            {
+
+            }
+            else if (inMainMenu == 3)
+            {
+                SaveFile();
+            }
+        }
+    
 
         static void MainMenu()
         {
