@@ -34,14 +34,20 @@ namespace TurnBasedRPG
         static bool defending;
         static bool healing;
         static bool shopanimLeft;
+        static bool waitingForAnim = true;
 
         static int playerInGameMenu = 1;
 
 
         static void Main(string[] args)
         {
-            ShopUIAnimTimer();
-            ShopUI();
+            while (inFight == true)
+            {
+                if (waitingForAnim == true)
+                {
+                    ShopUIAnimTimer();
+                }
+            }
             Console.ReadKey();
             GameLoop();
             Console.WriteLine("FightDome...");
@@ -421,6 +427,7 @@ namespace TurnBasedRPG
         {
             if (shopanimLeft == true)
             {
+                Console.SetCursorPosition(0, 0);
                 Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
                 Console.WriteLine("█            / /              | |                                     | |                                 █");
                 Console.WriteLine("█           / /               |_|_____________________________________|_|                                 █");
@@ -448,6 +455,7 @@ namespace TurnBasedRPG
             }
             else if (shopanimLeft == false)
             {
+                Console.SetCursorPosition(0, 0);
                 Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
                 Console.WriteLine("█            \\ \\              | |                                     | |                                 █");
                 Console.WriteLine("█             \\ \\             |_|_____________________________________|_|                                 █");
@@ -477,8 +485,9 @@ namespace TurnBasedRPG
 
         static void ShopUIAnimTimer()
         {
+            waitingForAnim = false;
             Timer t = new Timer(1000);
-            t.AutoReset = true;
+            t.AutoReset = false;
             t.Elapsed += new ElapsedEventHandler(ShopUIAnimSwapper);
             t.Start();
         }
@@ -488,10 +497,14 @@ namespace TurnBasedRPG
             if (shopanimLeft == true)
             {
                 shopanimLeft = false;
+                ShopUI();
+                waitingForAnim = true;
             }
             else if (shopanimLeft == false)
             {
                 shopanimLeft = true;
+                ShopUI();
+                waitingForAnim = true;
             }
         }
 
