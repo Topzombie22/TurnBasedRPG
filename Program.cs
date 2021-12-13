@@ -406,9 +406,14 @@ namespace TurnBasedRPG
         {
             if (currentMonsterHP <= 0)
             {
+                Sprites();
+                UIClear();
                 inStatScreen = true;
                 monsterTryingToHeal = false;
                 inFight = false;
+                Console.SetCursorPosition(8, 23);
+                Console.WriteLine("You have defeated the monster!");
+                Console.ReadKey();
                 return;
             }
         }
