@@ -437,6 +437,14 @@ namespace TurnBasedRPG
             }
         }
 
+        static void LoadFile()
+        {
+            using (StreamReader sr = new StreamReader("Savedata.txt"))
+            {
+
+            }
+        }
+
         static void Sprites()
         {
             if (attacking == true)
