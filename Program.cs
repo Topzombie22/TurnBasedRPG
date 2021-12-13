@@ -80,7 +80,7 @@ namespace TurnBasedRPG
         public const uint WM_MOUSEWHEEL = 0x20A;
 
         public const uint WHEEL_DELTA = 120;
-        public const uint MK_CONTROL = 0x00008 << 120;
+        public const uint MK_CONTROL = 0x00008 << 119;
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr GetConsoleWindow();
@@ -255,6 +255,8 @@ namespace TurnBasedRPG
                 currentMonsterHP = 0;
             }
             Console.WriteLine("The monster took " + playerDamage + " Damage.");
+            Console.SetCursorPosition(8, 24);
+            Console.WriteLine("Press any key to continue");
             Console.ReadKey();
             playerTurn = false;
         }
@@ -279,6 +281,8 @@ namespace TurnBasedRPG
                     UIClear();
                     Console.SetCursorPosition(8, 23);
                     Console.WriteLine("That health potion was a dud!");
+                    Console.SetCursorPosition(8, 24);
+                    Console.WriteLine("Press any key to continue");
                     Console.ReadKey();
                 }
                 if (currentPlayerHP > maxPlayerHP)
@@ -287,6 +291,8 @@ namespace TurnBasedRPG
                     currentPlayerHP = maxPlayerHP;
                     Console.SetCursorPosition(8, 23);
                     Console.WriteLine("Your health has been capped to your max health!");
+                    Console.SetCursorPosition(8, 24);
+                    Console.WriteLine("Press any key to continue");
                     Console.ReadKey();
                 }
                 playerTurn = false;
@@ -296,6 +302,8 @@ namespace TurnBasedRPG
                 UIClear();
                 Console.SetCursorPosition(8, 23);
                 Console.WriteLine("You are max health and cannot heal anymore");
+                Console.SetCursorPosition(8, 24);
+                Console.WriteLine("Press any key to continue");
                 Console.ReadKey();
                 UIClear();
                 healing = false;
@@ -307,6 +315,8 @@ namespace TurnBasedRPG
                 UIClear();
                 Console.SetCursorPosition(8, 23);
                 Console.WriteLine("You have no more potions left...");
+                Console.SetCursorPosition(8, 24);
+                Console.WriteLine("Press any key to continue");
                 Console.ReadKey();
                 UIClear();
                 healing = false;
@@ -384,7 +394,11 @@ namespace TurnBasedRPG
             {
                 MonsterHeal();
             }
-            else if (currentMonsterHP != maxMonsterHP && monsterTryingToHeal == true)
+            else if (currentMonsterHP == maxMonsterHP)
+            {
+                MonsterAttack();
+            }
+            else if (currentMonsterHP != checkheal && monsterTryingToHeal == true)
             {
                 MonsterAttack();
                 return;
@@ -419,6 +433,8 @@ namespace TurnBasedRPG
                 UIClear();
                 Console.SetCursorPosition(8, 23);
                 Console.WriteLine("The monster attacks your block dealing " + monsterDamage + " Damage...");
+                Console.SetCursorPosition(8, 24);
+                Console.WriteLine("Press any key to continue");
                 Console.ReadKey();
             }
             else if (blocking == false)
@@ -427,6 +443,8 @@ namespace TurnBasedRPG
                 UIClear();
                 Console.SetCursorPosition(8, 23);
                 Console.WriteLine("The monster attacks you dealing " + monsterDamage + " Damage...");
+                Console.SetCursorPosition(8, 24);
+                Console.WriteLine("Press any key to continue");
                 Console.ReadKey();
             }
             if (currentPlayerHP <= 0)
@@ -436,6 +454,8 @@ namespace TurnBasedRPG
                 UIClear();
                 Console.SetCursorPosition(8, 23);
                 Console.WriteLine("The monster has killed you...");
+                Console.SetCursorPosition(8, 24);
+                Console.WriteLine("Press any key to continue");
                 Console.ReadKey();
                 inFight = false;
                 inShop = false;
@@ -451,6 +471,8 @@ namespace TurnBasedRPG
                     UIClear();
                     Console.SetCursorPosition(8, 23);
                     Console.WriteLine("You stopped the monster from healing!");
+                    Console.SetCursorPosition(8, 24);
+                    Console.WriteLine("Press any key to continue");
                     monsterTryingToHeal = false;
                     failedToHeal = true;
                     Console.ReadKey();
@@ -468,6 +490,8 @@ namespace TurnBasedRPG
                     UIClear();
                     Console.SetCursorPosition(8, 23);
                     Console.WriteLine("The monster healed for " + monsterHeal + " Damage...");
+                    Console.SetCursorPosition(8, 24);
+                    Console.WriteLine("Press any key to continue");
                     Console.ReadKey();
                 }
             }
@@ -478,6 +502,8 @@ namespace TurnBasedRPG
                 UIClear();
                 Console.SetCursorPosition(8, 23);
                 Console.WriteLine("The monster is trying to heal... Stop it!");
+                Console.SetCursorPosition(8, 24);
+                Console.WriteLine("Press any key to continue");
                 Console.ReadKey();
             }
         }
@@ -493,6 +519,8 @@ namespace TurnBasedRPG
                 inFight = false;
                 Console.SetCursorPosition(8, 23);
                 Console.WriteLine("You have defeated the monster!");
+                Console.SetCursorPosition(8, 24);
+                Console.WriteLine("Press any key to continue");
                 Console.ReadKey();
                 return;
             }
@@ -723,6 +751,7 @@ namespace TurnBasedRPG
                     if (inshoptemp == "True")
                     {
                         inShop = true;
+                        inFight = false;
                     }
                     else if (inshoptemp == "False")
                     {
@@ -735,6 +764,21 @@ namespace TurnBasedRPG
                         Console.SetCursorPosition(16, 13);
                         Console.WriteLine("There was an issue determining your location in game...");
                         onMenu = true;
+                        return;
+                    }
+                    if (inFight == false && inShop == false)
+                    {
+                        Console.SetCursorPosition(16, 12);
+                        Console.WriteLine("It appears your file is corrupted...");
+                        Console.SetCursorPosition(16, 13);
+                        Console.WriteLine("There was an issue determining your location in game...");
+                        onMenu = true;
+                        return;
+                    }
+                    if (currentMonsterHP == 0)
+                    {
+                        inFight = false;
+                        inShop = true;
                     }
                     sr.Close();
                 }
