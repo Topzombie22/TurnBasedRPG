@@ -44,6 +44,7 @@ namespace TurnBasedRPG
         static bool attacking;
         static bool defending;
         static bool healing;
+        static bool blocking;
         static bool shopanimLeftb;
         static bool shopUIInitialized;
         static bool shopKeeperHasSpoke = false;
@@ -92,6 +93,7 @@ namespace TurnBasedRPG
                 {
                     ClearConsole();
                     System.Threading.Thread.Sleep(1000);
+                    AudioController();
                     GameOver();
                     hasConsoleCleared = false;
                 }
@@ -277,6 +279,7 @@ namespace TurnBasedRPG
 
         static void Defending()
         {
+            blocking = true;
             playerTurn = false;
         }
 
@@ -325,6 +328,7 @@ namespace TurnBasedRPG
             MonsterAI();
             UIClear();
             Sprites();
+            blocking = false;
         }
 
         static void MonsterAI()
@@ -363,11 +367,23 @@ namespace TurnBasedRPG
         {
             Random random = new Random();
             monsterDamage = random.Next(2 * playerLvl, 5 * playerLvl);
-            currentPlayerHP = currentPlayerHP - monsterDamage;
-            UIClear();
-            Console.SetCursorPosition(8, 23);
-            Console.WriteLine("The monster attacks you dealing " + monsterDamage + " Damage...");
-            Console.ReadKey();
+            if (blocking == true)
+            {
+                monsterDamage = monsterDamage / 2;
+                currentPlayerHP = currentPlayerHP - monsterDamage;
+                UIClear();
+                Console.SetCursorPosition(8, 23);
+                Console.WriteLine("The monster attacks your block dealing " + monsterDamage + " Damage...");
+                Console.ReadKey();
+            }
+            else if (blocking == false)
+            {
+                currentPlayerHP = currentPlayerHP - monsterDamage;
+                UIClear();
+                Console.SetCursorPosition(8, 23);
+                Console.WriteLine("The monster attacks you dealing " + monsterDamage + " Damage...");
+                Console.ReadKey();
+            }
             if (currentPlayerHP <= 0)
             {
                 currentPlayerHP = 0;
@@ -377,6 +393,7 @@ namespace TurnBasedRPG
                 Console.WriteLine("The monster has killed you...");
                 Console.ReadKey();
                 inFight = false;
+                inShop = false;
             }
         }
 
@@ -540,6 +557,11 @@ namespace TurnBasedRPG
                 Console.WriteLine("There was no save file detected please ensure you have saved before trying to load!");
             }
 
+        }
+
+        static void ErrorChecking()
+        {
+            
         }
 
         static void Sprites()
@@ -1082,6 +1104,11 @@ namespace TurnBasedRPG
             {
                 SoundPlayer shop = new SoundPlayer("SoundFiles\\ShopTheme.wav");
                 shop.Play();
+            }
+            else if (currentPlayerHP <= 0)
+            {
+                SoundPlayer death = new SoundPlayer("SoundFiles\\DeathTheme.wav");
+                death.Play();
             }
         }
 
