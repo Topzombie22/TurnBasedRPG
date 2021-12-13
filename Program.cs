@@ -89,6 +89,7 @@ namespace TurnBasedRPG
                     ClearConsole();
                     System.Threading.Thread.Sleep(1000);
                     GameOver();
+                    hasConsoleCleared = false;
                 }
                 if (hasConsoleCleared == false)
                 {
@@ -199,6 +200,8 @@ namespace TurnBasedRPG
 
         static void PlayerAttack()
         {
+            Random random = new Random();
+            playerDamage = random.Next(5 * playerLvl, 10 * playerLvl);
             UIClear();
             Console.SetCursorPosition(8, 23);
             currentMonsterHP = currentMonsterHP - playerDamage;
@@ -298,7 +301,6 @@ namespace TurnBasedRPG
                 maxMonsterHP = random.Next(10 * playerLvl, 30 * playerLvl);
                 currentMonsterHP = maxMonsterHP;
                 halfMonsterHP = maxMonsterHP / 2;
-                monsterDamage = random.Next(2 * playerLvl, 5 * playerLvl);
             }
             else if (Loaded == true)
             {
@@ -354,6 +356,8 @@ namespace TurnBasedRPG
 
         static void MonsterAttack()
         {
+            Random random = new Random();
+            monsterDamage = random.Next(2 * playerLvl, 5 * playerLvl);
             currentPlayerHP = currentPlayerHP - monsterDamage;
             UIClear();
             Console.SetCursorPosition(8, 23);
