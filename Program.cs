@@ -14,8 +14,8 @@ namespace TurnBasedRPG
         static int currentMonsterHP;
         static int monsterDamage;
         static int monsterHeal;
-        static int maxPlayerHP = 20;
-        static int currentPlayerHP = 10;
+        static int maxPlayerHP;
+        static int currentPlayerHP;
         static int playerDamage = 10;
         static int healthPotionHeal;
         static int Coins;
@@ -23,7 +23,7 @@ namespace TurnBasedRPG
         static int shopKeeperLines;
         static int blockReduction;
         static int maxPlayerLvl = 10;
-        static int playerLvl = 2;
+        static int playerLvl;
         static int exp;
         static int recievedEXP;
         static int playerPotions = 3;
@@ -71,10 +71,14 @@ namespace TurnBasedRPG
             {
                 while (onMenu == true)
                 {
+                    Loaded = false;
                     MainMenuChoice();
                 }
-                MonsterInitializer();
-                Sprites();
+                if (inFight == true)
+                {
+                    MonsterInitializer();
+                    Sprites();
+                }
                 while (inFight == true)
                 {
                     PlayerTurn();
@@ -97,8 +101,6 @@ namespace TurnBasedRPG
                 while (inFight == false && inStatScreen == true)
                 {
                     StatScreen();
-                    animTimerStarted = false;
-                    shopUIInitialized = false;
                     hasConsoleCleared = false;
                 }
                 if(hasConsoleCleared == false)
@@ -106,6 +108,11 @@ namespace TurnBasedRPG
                     ClearConsole();
                     System.Threading.Thread.Sleep(1000);
                     Console.SetCursorPosition(0, 0);
+                }
+                if (inShop == true)
+                {
+                    animTimerStarted = false;
+                    shopUIInitialized = false;
                 }
                 while (inFight == false && inStatScreen == false && inShop == true)
                 {
@@ -278,7 +285,7 @@ namespace TurnBasedRPG
             }
             else if (Loaded == true)
             {
-
+                maxPlayerHP = 10 * playerLvl;
             }
 
         }
@@ -286,7 +293,7 @@ namespace TurnBasedRPG
         //May conflict with loading later
         static void MonsterInitializer()
         {
-            if (Loaded == false)
+            if (Loaded == false || inShop == true)
             {
                 Random random = new Random();
                 maxMonsterHP = random.Next(10 * playerLvl, 30 * playerLvl);
@@ -298,6 +305,7 @@ namespace TurnBasedRPG
             {
 
             }
+            Loaded = false;
         }
 
         static void MonsterTurn()
@@ -509,6 +517,7 @@ namespace TurnBasedRPG
                         Console.WriteLine("There was an issue determining your location in game...");
                         onMenu = true;
                     }
+                    sr.Close();
                 }
                 Loaded = true;
             }
@@ -516,7 +525,6 @@ namespace TurnBasedRPG
             {
                 Console.SetCursorPosition(16, 12);
                 Console.WriteLine("There was no save file detected please ensure you have saved before trying to load!");
-                Loaded = false;
             }
 
         }
@@ -1006,10 +1014,11 @@ namespace TurnBasedRPG
                 {
                     hasConsoleCleared = false;
                     onMenu = false;
+                    maxPlayerHP = maxPlayerHP * playerLvl;
                     ClearConsole();
+                    PlayerInitializer();
                     System.Threading.Thread.Sleep(1000);
                     Console.SetCursorPosition(0, 0);
-                    PlayerInitializer();
                 }
                 else
                 {
@@ -1058,6 +1067,7 @@ namespace TurnBasedRPG
             {
                 recievedEXP = random.Next(20, 50);
                 exp = exp + recievedEXP;
+                maxPlayerHP = 10 * playerLvl;
                 Console.SetCursorPosition(10, 5);
                 Console.Write("You have been awarded " + recievedEXP + " exp for defeating the monster!");
                 if (exp < 100)
