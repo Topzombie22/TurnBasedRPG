@@ -3,6 +3,7 @@ using System.Media;
 using System.Timers;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.IO;
 
@@ -71,6 +72,24 @@ namespace TurnBasedRPG
         static string maxmonsterhptemp;
         static string infighttemp;
         static string inshoptemp;
+
+        public const int VK_F11 = 0x7A;
+        public const int SW_MAXIMIZE = 3;
+
+        public const uint WM_KEYDOWN = 0x100;
+        public const uint WM_MOUSEWHEEL = 0x20A;
+
+        public const uint WHEEL_DELTA = 120;
+        public const uint MK_CONTROL = 0x00008 << 120;
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern IntPtr GetConsoleWindow();
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
         static void Main(string[] args)
         {
@@ -342,7 +361,7 @@ namespace TurnBasedRPG
             Sprites();
             blocking = false;
         }
-
+        
         static void MonsterAI()
         {
             Random random = new Random();
@@ -1497,10 +1516,14 @@ namespace TurnBasedRPG
 
         static void FullScreen()
         {
-            Console.WriteLine("We suggest full screen for this experiance!");
-            Console.WriteLine("Press Alt + Enter to go full screen!");
-            System.Threading.Thread.Sleep(2000);
-            Console.Clear();
+            var hwnd = GetConsoleWindow();
+
+            PostMessage(hwnd, WM_MOUSEWHEEL, (IntPtr)(MK_CONTROL | WHEEL_DELTA), IntPtr.Zero);
+
+
+            PostMessage(hwnd, WM_KEYDOWN, (IntPtr)VK_F11, IntPtr.Zero);
+
+
         }
     }
 }
