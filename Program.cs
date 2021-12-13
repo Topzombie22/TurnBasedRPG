@@ -23,7 +23,6 @@ namespace TurnBasedRPG
         static int Coins;
         static int lootedCoins;
         static int shopKeeperLines;
-        static int blockReduction;
         static int maxPlayerLvl = 10;
         static int playerLvl;
         static int exp;
@@ -33,16 +32,12 @@ namespace TurnBasedRPG
         static int checkheal;
         static bool gameLoop = true;
         static bool onMenu = true;
-        static bool inGame;
         static bool monsterTryingToHeal;
-        static bool gameOver;
         static bool inFight;
         static bool inStatScreen;
         static bool inShop = true;
         static bool Loaded;
         static bool playerTurn = true;
-        static bool monsterTurn;
-        static bool shopping;
         static bool attacking;
         static bool defending;
         static bool healing;
@@ -52,7 +47,6 @@ namespace TurnBasedRPG
         static bool shopUIInitialized;
         static bool errorFound;
         static bool shopKeeperHasSpoke = false;
-        static bool changingScreen;
         static int shopanimLeft = 1;
         static bool waitingForAnim = true;
         static bool animTimerStarted;
@@ -268,7 +262,7 @@ namespace TurnBasedRPG
                 Sprites();
                 playerPotions = playerPotions - 1;
                 Random random = new Random();
-                healthPotionHeal = random.Next(0 * playerLvl, 7 * playerLvl);
+                healthPotionHeal = random.Next(0 * playerLvl, 10 * playerLvl);
                 currentPlayerHP = currentPlayerHP + healthPotionHeal;
                 UIClear();
                 Console.SetCursorPosition(8, 23);
@@ -1036,9 +1030,9 @@ namespace TurnBasedRPG
                 Console.WriteLine("█           _|_|_             |                                         |                                 █");
                 Console.WriteLine("█          |  +  |            |         The Only Potion's Shop          |                                 █");
                 Console.WriteLine("█          | / \\ |            |_________________________________________|                                 █");
-                Console.WriteLine("█          |_|_|_|                                                                                        █");
-                Console.WriteLine("█                                                                                                         █");
-                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█          |_|_|_|                       |_|______________|_|                                             █");
+                Console.WriteLine("█                                        |     25 Coins     |                                             █");
+                Console.WriteLine("█                                        |__________________|                                             █");
                 Console.WriteLine("█                                              ____                                                       █");
                 Console.WriteLine("█                                             /    \\                                                      █");
                 Console.WriteLine("█                                            |      |                                                     █");
@@ -1057,9 +1051,9 @@ namespace TurnBasedRPG
                 Console.WriteLine("█         _/_/_               |                                         |                                 █");
                 Console.WriteLine("█        |  +  |              |         The Only Potion's Shop          |                                 █");
                 Console.WriteLine("█        | / \\ |              |_________________________________________|                                 █");
-                Console.WriteLine("█        |_|_|_|                                                                                          █");
-                Console.WriteLine("█                                                                                                         █");
-                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█        |_|_|_|                         |_|______________|_|                                             █");
+                Console.WriteLine("█                                        |     25 Coins     |                                             █");
+                Console.WriteLine("█                                        |__________________|                                             █");
                 Console.WriteLine("█                                              ____                                                       █");
                 Console.WriteLine("█                                             /    \\                                                      █");
                 Console.WriteLine("█                                            |      |                                                     █");
@@ -1078,9 +1072,9 @@ namespace TurnBasedRPG
                 Console.WriteLine("█             _\\_\\_           |                                         |                                 █");
                 Console.WriteLine("█             |  +  |         |         The Only Potion's Shop          |                                 █");
                 Console.WriteLine("█             | / \\ |         |_________________________________________|                                 █");
-                Console.WriteLine("█             |_|_|_|                                                                                     █");
-                Console.WriteLine("█                                                                                                         █");
-                Console.WriteLine("█                                                                                                         █");
+                Console.WriteLine("█             |_|_|_|                    |_|______________|_|                                             █");
+                Console.WriteLine("█                                        |     25 Coins     |                                             █");
+                Console.WriteLine("█                                        |__________________|                                             █");
                 Console.WriteLine("█                                              ____                                                       █");
                 Console.WriteLine("█                                             /    \\                                                      █");
                 Console.WriteLine("█                                            |      |                                                     █");
@@ -1256,7 +1250,7 @@ namespace TurnBasedRPG
             {
                 Console.SetCursorPosition(28, 17);
                 playerPotions = playerPotions + 1;
-                Coins = Coins - 20;
+                Coins = Coins - 25;
                 Console.Write("Thanks for the buisness!");
                 Console.SetCursorPosition(28, 18);
                 Console.Write("You have a total of " + playerPotions + " potions and " + Coins + " Coins left!           ");
