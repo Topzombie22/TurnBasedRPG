@@ -419,13 +419,13 @@ namespace TurnBasedRPG
                     sw.WriteLine(playerLvl.ToString());
                     sw.WriteLine(exp.ToString());
                     sw.WriteLine(currentPlayerHP.ToString());
-                    sw.WriteLine(maxPlayerHP.ToString());
                     sw.WriteLine(playerPotions.ToString());
                     sw.WriteLine(Coins.ToString());
                     sw.WriteLine(currentMonsterHP.ToString());
                     sw.WriteLine(maxMonsterHP.ToString());
                     sw.WriteLine(inFight.ToString());
                     sw.WriteLine(inShop.ToString());
+                    sw.Close();
                 }
             }
             else
@@ -435,20 +435,20 @@ namespace TurnBasedRPG
                     sw.WriteLine(playerLvl.ToString());
                     sw.WriteLine(exp.ToString());
                     sw.WriteLine(currentPlayerHP.ToString());
-                    sw.WriteLine(maxPlayerHP.ToString());
                     sw.WriteLine(playerPotions.ToString());
                     sw.WriteLine(Coins.ToString());
                     sw.WriteLine(currentMonsterHP.ToString());
                     sw.WriteLine(maxMonsterHP.ToString());
                     sw.WriteLine(inFight.ToString());
                     sw.WriteLine(inShop.ToString());
+                    sw.Close();
                 }
             }
         }
 
         static void LoadFile()
         {
-            if (File.Exists("Savedata.text"))
+            if (File.Exists("Savedata.txt"))
             {
                 string playerleveltemp;
                 string exptemp;
@@ -484,7 +484,7 @@ namespace TurnBasedRPG
                 }
                 Loaded = true;
             }
-            else
+            else if (!File.Exists("Savedata.txt"))
             {
                 Console.SetCursorPosition(16, 12);
                 Console.WriteLine("There was no save file detected please ensure you have saved before trying to load!");
