@@ -116,7 +116,9 @@ namespace TurnBasedRPG
                 }
                 while (inFight == true)
                 {
+                    TurnDisplay();
                     PlayerTurn();
+                    TurnDisplay();
                     MonsterTurn();
                     hasConsoleCleared = false;
                 }
@@ -198,7 +200,8 @@ namespace TurnBasedRPG
         {
             if (playerInGameMenu == 1)
             {
-                Console.WriteLine("The player attacks");
+                Console.SetCursorPosition(14, 23);
+                Console.WriteLine("You attack");
                 System.Threading.Thread.Sleep(500);
                 attacking = true;
                 Sprites();
@@ -206,7 +209,8 @@ namespace TurnBasedRPG
             }
             if (playerInGameMenu == 2)
             {
-                Console.WriteLine("The player blocks");
+                Console.SetCursorPosition(14, 23);
+                Console.WriteLine("You block");
                 System.Threading.Thread.Sleep(500);
                 defending = true;
                 Sprites();
@@ -214,13 +218,15 @@ namespace TurnBasedRPG
             }
             if (playerInGameMenu == 3)
             {
-                Console.WriteLine("The player heals");
+                Console.SetCursorPosition(14, 23);
+                Console.WriteLine("You heal");
                 System.Threading.Thread.Sleep(500);
                 healing = true;
                 PlayerHeal();
             }
             if (playerInGameMenu == 4)
             {
+                Console.SetCursorPosition(14, 23);
                 SaveFile();
                 Console.WriteLine("You save the game");
                 System.Threading.Thread.Sleep(500);
@@ -228,6 +234,7 @@ namespace TurnBasedRPG
             }
             if (playerInGameMenu == 5)
             {
+                Console.SetCursorPosition(14, 23);
                 Console.WriteLine("You go back to menu");
                 System.Threading.Thread.Sleep(500);
                 inFight = false;
@@ -357,6 +364,7 @@ namespace TurnBasedRPG
             if (inFight == false)
                 return;
             MonsterAI();
+            playerTurn = true;
             UIClear();
             Sprites();
             blocking = false;
@@ -566,6 +574,7 @@ namespace TurnBasedRPG
                         try
                         {
                             playerLvl = int.Parse(playerleveltemp);
+                            maxPlayerHP = 10 * playerLvl;
                         }
                         catch (FormatException)
                         {
@@ -1543,15 +1552,7 @@ namespace TurnBasedRPG
 
         static void PlayerMenu()
         {
-            Console.SetCursorPosition(0, 16);
-            if (playerTurn == true)
-            {
-                Console.WriteLine("Players Turn");
-            }
-            if (playerTurn == false)
-            {
-                Console.WriteLine("Monsters Turn");
-            }
+            Console.SetCursorPosition(0, 17);
             Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
             Console.WriteLine("█                                                                                                         █");
         if (playerInGameMenu == 1)
@@ -1600,6 +1601,19 @@ namespace TurnBasedRPG
             }
             Console.WriteLine("█                                                                                                         █");
             Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
+        }
+
+        static void TurnDisplay()
+        {
+            Console.SetCursorPosition(0, 16);
+            if (playerTurn == true)
+            {
+                Console.WriteLine("Players Turn ");
+            }
+            if (playerTurn == false)
+            {
+                Console.WriteLine("Monsters Turn");
+            }
         }
 
 
