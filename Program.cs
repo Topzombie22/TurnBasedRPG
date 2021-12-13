@@ -59,6 +59,15 @@ namespace TurnBasedRPG
         static int inMainMenu = 1;
         static int inFightMusic;
 
+        static string playerleveltemp;
+        static string exptemp;
+        static string currentplayerhptemp;
+        static string playerpotionstemp;
+        static string coinstemp;
+        static string currentmonsterhptemp;
+        static string maxmonsterhptemp;
+        static string infighttemp;
+        static string inshoptemp;
 
         static void Main(string[] args)
         {
@@ -488,15 +497,6 @@ namespace TurnBasedRPG
         {
             if (File.Exists("Savedata.txt"))
             {
-                string playerleveltemp;
-                string exptemp;
-                string currentplayerhptemp;
-                string playerpotionstemp;
-                string coinstemp;
-                string currentmonsterhptemp;
-                string maxmonsterhptemp;
-                string infighttemp;
-                string inshoptemp;
                 using (StreamReader sr = new StreamReader("Savedata.txt"))
                 {
                     playerleveltemp = sr.ReadLine();
@@ -511,12 +511,78 @@ namespace TurnBasedRPG
 
                     //parses all info to usable values
 
-                    int.TryParse(playerleveltemp, out playerLvl);
-                    int.TryParse(exptemp, out exp);
-                    int.TryParse(currentplayerhptemp, out currentPlayerHP);
-                    int.TryParse(coinstemp, out Coins);
-                    int.TryParse(currentmonsterhptemp, out currentMonsterHP);
-                    int.TryParse(maxmonsterhptemp, out maxMonsterHP);
+                    try
+                    {
+                       playerLvl = int.Parse(playerleveltemp);
+                    }
+                    catch (FormatException)
+                    {
+                        Console.SetCursorPosition(16, 12);
+                        Console.WriteLine("It appears your file is corrupted...");
+                        Console.SetCursorPosition(16, 13);
+                        Console.WriteLine("There was an issue determining your players level...");
+                        return;
+                    }
+                    try
+                    {
+                       exp = int.Parse(exptemp);
+                    }
+                    catch (FormatException)
+                    {
+                        Console.SetCursorPosition(16, 12);
+                        Console.WriteLine("It appears your file is corrupted...");
+                        Console.SetCursorPosition(16, 13);
+                        Console.WriteLine("There was an issue determining your players exp...");
+                        return;
+                    }
+                    try
+                    {
+                       currentPlayerHP = int.Parse(currentplayerhptemp);
+                    }
+                    catch (FormatException)
+                    {
+                        Console.SetCursorPosition(16, 12);
+                        Console.WriteLine("It appears your file is corrupted...");
+                        Console.SetCursorPosition(16, 13);
+                        Console.WriteLine("There was an issue determining your players current HP...");
+                        return;
+                    }
+                    try
+                    {
+                      Coins = int.Parse(coinstemp);
+                    }
+                    catch (FormatException)
+                    {
+                        Console.SetCursorPosition(16, 12);
+                        Console.WriteLine("It appears your file is corrupted...");
+                        Console.SetCursorPosition(16, 13);
+                        Console.WriteLine("There was an issue determining your players current coins...");
+                        return;
+                    }
+                    try
+                    {
+                       currentMonsterHP = int.Parse(currentmonsterhptemp);
+                    }
+                    catch (FormatException)
+                    {
+                        Console.SetCursorPosition(16, 12);
+                        Console.WriteLine("It appears your file is corrupted...");
+                        Console.SetCursorPosition(16, 13);
+                        Console.WriteLine("There was an issue determining the monsters current HP...");
+                        return;
+                    }
+                    try
+                    {
+                       maxMonsterHP = int.Parse(maxmonsterhptemp);
+                    }
+                    catch (FormatException)
+                    {
+                        Console.SetCursorPosition(16, 12);
+                        Console.WriteLine("It appears your file is corrupted...");
+                        Console.SetCursorPosition(16, 13);
+                        Console.WriteLine("There was an issue determining the monsters max HP...");
+                        return;
+                    }
                     if (infighttemp == "True")
                     {
                         inFight = true;
@@ -529,6 +595,7 @@ namespace TurnBasedRPG
                     {
                         Console.SetCursorPosition(16, 12);
                         Console.WriteLine("It appears your file is corrupted...");
+                        Console.SetCursorPosition(16, 13);
                         Console.WriteLine("There was an issue determining your location in game...");
                         onMenu = true;
                     }
@@ -544,6 +611,7 @@ namespace TurnBasedRPG
                     {
                         Console.SetCursorPosition(16, 12);
                         Console.WriteLine("It appears your file is corrupted...");
+                        Console.SetCursorPosition(16, 13);
                         Console.WriteLine("There was an issue determining your location in game...");
                         onMenu = true;
                     }
