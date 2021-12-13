@@ -80,6 +80,7 @@ namespace TurnBasedRPG
                     PlayerTurn();
                     MonsterTurn();
                     hasConsoleCleared = false;
+                    Loaded = false;
                 }
                 if (currentPlayerHP <= 0)
                 {
@@ -453,12 +454,15 @@ namespace TurnBasedRPG
                 {
 
                 }
+                Loaded = true;
             }
             else
             {
-                Console.SetCursorPosition(0, 10);
-                Console.WriteLine("There was no save file detected please ensure you have saved before trying to load");
+                Console.SetCursorPosition(16, 12);
+                Console.WriteLine("There was no save file detected please ensure you have saved before trying to load!");
+                Loaded = false;
             }
+
         }
 
         static void Sprites()
@@ -941,9 +945,22 @@ namespace TurnBasedRPG
             }
             else if (inMainMenu == 2)
             {
-                hasConsoleCleared = false;
                 LoadFile();
-                PlayerInitializer();
+                if (Loaded == true)
+                {
+                    hasConsoleCleared = false;
+                    inFight = true;
+                    onMenu = false;
+                    ClearConsole();
+                    System.Threading.Thread.Sleep(1000);
+                    Console.SetCursorPosition(0, 0);
+                    PlayerInitializer();
+                }
+                else
+                {
+
+                }
+
             }
             else if (inMainMenu == 3)
             {
