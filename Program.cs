@@ -376,7 +376,7 @@ namespace TurnBasedRPG
             {
                 MonsterHeal();
             }
-            else if (currentMonsterHP == maxMonsterHP)
+            else if (currentMonsterHP != maxMonsterHP && monsterTryingToHeal == true)
             {
                 MonsterAttack();
                 return;
@@ -553,12 +553,7 @@ namespace TurnBasedRPG
                     errorFound = false;
 
                     //parses all info to usable values
-
-                    try
-                    {
-                       playerLvl = int.Parse(playerleveltemp);
-                    }
-                    catch (FormatException)
+                    if (playerleveltemp == null)
                     {
                         Console.SetCursorPosition(16, 12);
                         Console.WriteLine("It appears your file is corrupted...");
@@ -566,11 +561,22 @@ namespace TurnBasedRPG
                         Console.WriteLine("There was an issue determining your players level...");
                         return;
                     }
-                    try
+                    else
                     {
-                       exp = int.Parse(exptemp);
+                        try
+                        {
+                            playerLvl = int.Parse(playerleveltemp);
+                        }
+                        catch (FormatException)
+                        {
+                            Console.SetCursorPosition(16, 12);
+                            Console.WriteLine("It appears your file is corrupted...");
+                            Console.SetCursorPosition(16, 13);
+                            Console.WriteLine("There was an issue determining your players level...");
+                            return;
+                        }
                     }
-                    catch (FormatException)
+                    if (exptemp == null)
                     {
                         Console.SetCursorPosition(16, 12);
                         Console.WriteLine("It appears your file is corrupted...");
@@ -578,11 +584,22 @@ namespace TurnBasedRPG
                         Console.WriteLine("There was an issue determining your players exp...");
                         return;
                     }
-                    try
+                    else
                     {
-                       currentPlayerHP = int.Parse(currentplayerhptemp);
+                        try
+                        {
+                            exp = int.Parse(exptemp);
+                        }
+                        catch (FormatException)
+                        {
+                            Console.SetCursorPosition(16, 12);
+                            Console.WriteLine("It appears your file is corrupted...");
+                            Console.SetCursorPosition(16, 13);
+                            Console.WriteLine("There was an issue determining your players exp...");
+                            return;
+                        }
                     }
-                    catch (FormatException)
+                    if (currentplayerhptemp == null)
                     {
                         Console.SetCursorPosition(16, 12);
                         Console.WriteLine("It appears your file is corrupted...");
@@ -590,11 +607,22 @@ namespace TurnBasedRPG
                         Console.WriteLine("There was an issue determining your players current HP...");
                         return;
                     }
-                    try
+                    else
                     {
-                      Coins = int.Parse(coinstemp);
+                        try
+                        {
+                            currentPlayerHP = int.Parse(currentplayerhptemp);
+                        }
+                        catch (FormatException)
+                        {
+                            Console.SetCursorPosition(16, 12);
+                            Console.WriteLine("It appears your file is corrupted...");
+                            Console.SetCursorPosition(16, 13);
+                            Console.WriteLine("There was an issue determining your players current HP...");
+                            return;
+                        }
                     }
-                    catch (FormatException)
+                    if (coinstemp == null)
                     {
                         Console.SetCursorPosition(16, 12);
                         Console.WriteLine("It appears your file is corrupted...");
@@ -602,29 +630,65 @@ namespace TurnBasedRPG
                         Console.WriteLine("There was an issue determining your players current coins...");
                         return;
                     }
-                    try
+                    else
                     {
-                       currentMonsterHP = int.Parse(currentmonsterhptemp);
+                        try
+                        {
+                            Coins = int.Parse(coinstemp);
+                        }
+                        catch (FormatException)
+                        {
+                            Console.SetCursorPosition(16, 12);
+                            Console.WriteLine("It appears your file is corrupted...");
+                            Console.SetCursorPosition(16, 13);
+                            Console.WriteLine("There was an issue determining your players current coins...");
+                            return;
+                        }
                     }
-                    catch (FormatException)
+                    if (currentmonsterhptemp == null)
                     {
                         Console.SetCursorPosition(16, 12);
                         Console.WriteLine("It appears your file is corrupted...");
                         Console.SetCursorPosition(16, 13);
                         Console.WriteLine("There was an issue determining the monsters current HP...");
-                        return;
                     }
-                    try
+                    else
                     {
-                       maxMonsterHP = int.Parse(maxmonsterhptemp);
+                        try
+                        {
+                            currentMonsterHP = int.Parse(currentmonsterhptemp);
+                        }
+                        catch (FormatException)
+                        {
+                            Console.SetCursorPosition(16, 12);
+                            Console.WriteLine("It appears your file is corrupted...");
+                            Console.SetCursorPosition(16, 13);
+                            Console.WriteLine("There was an issue determining the monsters current HP...");
+                            return;
+                        }
                     }
-                    catch (FormatException)
+                    if (maxmonsterhptemp == null)
                     {
                         Console.SetCursorPosition(16, 12);
                         Console.WriteLine("It appears your file is corrupted...");
                         Console.SetCursorPosition(16, 13);
                         Console.WriteLine("There was an issue determining the monsters max HP...");
                         return;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            maxMonsterHP = int.Parse(maxmonsterhptemp);
+                        }
+                        catch (FormatException)
+                        {
+                            Console.SetCursorPosition(16, 12);
+                            Console.WriteLine("It appears your file is corrupted...");
+                            Console.SetCursorPosition(16, 13);
+                            Console.WriteLine("There was an issue determining the monsters max HP...");
+                            return;
+                        }
                     }
                     ErrorChecking();
                     if (errorFound == true)
@@ -1019,6 +1083,8 @@ namespace TurnBasedRPG
             else if (shopMenu == 3)
             {
                 SaveFile();
+                Console.SetCursorPosition(28, 17);
+                Console.WriteLine("You saved your game!                         ");
             }
             else if (shopMenu == 4)
             {
@@ -1140,14 +1206,14 @@ namespace TurnBasedRPG
                 Coins = Coins - 20;
                 Console.Write("Thanks for the buisness!");
                 Console.SetCursorPosition(28, 18);
-                Console.Write("You have a total of " + playerPotions + " potions and " + Coins + " Coins left!        ");
+                Console.Write("You have a total of " + playerPotions + " potions and " + Coins + " Coins left!           ");
             }
             else if (Coins < 24)
             {
                 Console.SetCursorPosition(28, 17);
                 Console.Write("Scram kid, you don't got the cash...");
                 Console.SetCursorPosition(28, 18);
-                Console.Write("You have a total of " + playerPotions + " potions and " + Coins + " Coins!            ");
+                Console.Write("You have a total of " + playerPotions + " potions and " + Coins + " Coins!               ");
             }
         }
 
@@ -1256,6 +1322,48 @@ namespace TurnBasedRPG
 
         static void AudioController()
         {
+            if (!File.Exists("SoundFiles\\Menu.wav"))
+            {
+                Console.WriteLine("You are missing Menu.wav please ensure it is there and relaunch the game");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+            if (!File.Exists("SoundFiles\\BattleTheme1.wav"))
+            {
+                Console.WriteLine("You are missing BattleTheme1.wav please ensure it is there and relaunch the game");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+            if (!File.Exists("SoundFiles\\BattleTheme2.wav"))
+            {
+                Console.WriteLine("You are missing BattleTheme2.wav please ensure it is there and relaunch the game");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+            if (!File.Exists("SoundFiles\\BattleTheme3.wav"))
+            {
+                Console.WriteLine("You are missing BattleTheme3.wav please ensure it is there and relaunch the game");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+            if (!File.Exists("SoundFiles\\BattleTheme4.wav"))
+            {
+                Console.WriteLine("You are missing BattleTheme4.wav please ensure it is there and relaunch the game");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+            if (!File.Exists("SoundFiles\\ShopTheme.wav"))
+            {
+                Console.WriteLine("You are missing ShopTheme.wav please ensure it is there and relaunch the game");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+            if (!File.Exists("SoundFiles\\DeathTheme.wav"))
+            {
+                Console.WriteLine("You are missing DeathTheme.wav please ensure it is there and relaunch the game");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
             if (onMenu == true)
             {
                 SoundPlayer menu = new SoundPlayer("SoundFiles\\Menu.wav");
@@ -1334,7 +1442,6 @@ namespace TurnBasedRPG
             {
                 recievedEXP = random.Next(20, 50);
                 exp = exp + recievedEXP;
-                maxPlayerHP = 10 * playerLvl;
                 Console.SetCursorPosition(10, 5);
                 Console.Write("You have been awarded " + recievedEXP + " exp for defeating the monster!");
                 if (exp < 100)
@@ -1346,6 +1453,7 @@ namespace TurnBasedRPG
                 {
                     exp = exp - 100;
                     playerLvl = playerLvl + 1;
+                    maxPlayerHP = 10 * playerLvl;
                     Console.SetCursorPosition(10, 6);
                     Console.Write("You leveled up! You need " + (100 - exp) + " exp for your next level");
                 }
