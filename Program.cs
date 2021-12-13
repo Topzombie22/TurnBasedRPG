@@ -411,8 +411,9 @@ namespace TurnBasedRPG
 
         static void SaveFile()
         {
-            if (File.Exists("Savedata.txt"))
+            if (!File.Exists("Savedata.txt"))
             {
+                File.Create("Savedata.txt").Close();
                 using (StreamWriter sw = new StreamWriter("Savedata.txt"))
                 {
                     sw.WriteLine(playerLvl.ToString());
@@ -429,7 +430,6 @@ namespace TurnBasedRPG
             }
             else
             {
-                File.Create("Savedata.txt");
                 using (StreamWriter sw = new StreamWriter("Savedata.txt"))
                 {
                     sw.WriteLine(playerLvl.ToString());
@@ -450,9 +450,37 @@ namespace TurnBasedRPG
         {
             if (File.Exists("Savedata.text"))
             {
+                string playerleveltemp;
+                string exptemp;
+                string currentplayerhptemp;
+                string playerpotionstemp;
+                string coinstemp;
+                string currentmonsterhptemp;
+                string maxmonsterhptemp;
+                string infighttemp;
+                string inshoptemp;
                 using (StreamReader sr = new StreamReader("Savedata.txt"))
                 {
+                    playerleveltemp = sr.ReadLine();
+                    exptemp = sr.ReadLine();
+                    currentplayerhptemp = sr.ReadLine();
+                    playerpotionstemp = sr.ReadLine();
+                    coinstemp = sr.ReadLine();
+                    currentmonsterhptemp = sr.ReadLine();
+                    maxmonsterhptemp = sr.ReadLine();
+                    infighttemp = sr.ReadLine();
+                    inshoptemp = sr.ReadLine();
 
+                    Console.WriteLine(playerleveltemp);
+                    Console.WriteLine(exptemp);
+                    Console.WriteLine(currentplayerhptemp);
+                    Console.WriteLine(playerpotionstemp);
+                    Console.WriteLine(coinstemp);
+                    Console.WriteLine(currentmonsterhptemp);
+                    Console.WriteLine(maxmonsterhptemp);
+                    Console.WriteLine(infighttemp);
+                    Console.WriteLine(inshoptemp);
+                    Console.ReadKey();
                 }
                 Loaded = true;
             }
