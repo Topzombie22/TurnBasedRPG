@@ -471,16 +471,44 @@ namespace TurnBasedRPG
                     infighttemp = sr.ReadLine();
                     inshoptemp = sr.ReadLine();
 
-                    Console.WriteLine(playerleveltemp);
-                    Console.WriteLine(exptemp);
-                    Console.WriteLine(currentplayerhptemp);
-                    Console.WriteLine(playerpotionstemp);
-                    Console.WriteLine(coinstemp);
-                    Console.WriteLine(currentmonsterhptemp);
-                    Console.WriteLine(maxmonsterhptemp);
-                    Console.WriteLine(infighttemp);
-                    Console.WriteLine(inshoptemp);
-                    Console.ReadKey();
+                    //parses all info to usable values
+
+                    int.TryParse(playerleveltemp, out playerLvl);
+                    int.TryParse(exptemp, out exp);
+                    int.TryParse(currentplayerhptemp, out currentPlayerHP);
+                    int.TryParse(coinstemp, out Coins);
+                    int.TryParse(currentmonsterhptemp, out currentMonsterHP);
+                    int.TryParse(maxmonsterhptemp, out maxMonsterHP);
+                    if (infighttemp == "True")
+                    {
+                        inFight = true;
+                    }
+                    else if (infighttemp == "False")
+                    {
+                        inFight = false;
+                    }
+                    else
+                    {
+                        Console.SetCursorPosition(16, 12);
+                        Console.WriteLine("It appears your file is corrupted...");
+                        Console.WriteLine("There was an issue determining your location in game...");
+                        onMenu = true;
+                    }
+                    if (inshoptemp == "True")
+                    {
+                        inShop = true;
+                    }
+                    else if (inshoptemp == "False")
+                    {
+                        inShop = false;
+                    }
+                    else
+                    {
+                        Console.SetCursorPosition(16, 12);
+                        Console.WriteLine("It appears your file is corrupted...");
+                        Console.WriteLine("There was an issue determining your location in game...");
+                        onMenu = true;
+                    }
                 }
                 Loaded = true;
             }
@@ -977,7 +1005,6 @@ namespace TurnBasedRPG
                 if (Loaded == true)
                 {
                     hasConsoleCleared = false;
-                    inFight = true;
                     onMenu = false;
                     ClearConsole();
                     System.Threading.Thread.Sleep(1000);
