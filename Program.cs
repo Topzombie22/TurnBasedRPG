@@ -164,6 +164,7 @@ namespace TurnBasedRPG
 
         static void PlayerTurn()
         {
+            //determins players action
             Sprites();
             ConsoleKeyInfo cki;
             do
@@ -192,6 +193,7 @@ namespace TurnBasedRPG
 
         static void PlayerAction()
         {
+            //acts out players action
             if (playerInGameMenu == 1)
             {
                 Console.SetCursorPosition(14, 23);
@@ -239,6 +241,7 @@ namespace TurnBasedRPG
 
         static void PlayerAttack()
         {
+            // Determins damage per attack
             Random random = new Random();
             playerDamage = random.Next(5 * playerLvl, 10 * playerLvl);
             UIClear();
@@ -257,6 +260,7 @@ namespace TurnBasedRPG
 
         static void PlayerHeal()
         {
+            //determins player heal
             if (playerPotions > 0 && currentPlayerHP < maxPlayerHP)
             {
                 Sprites();
@@ -321,12 +325,14 @@ namespace TurnBasedRPG
 
         static void Defending()
         {
+            //sets players block
             blocking = true;
             playerTurn = false;
         }
 
         static void PlayerInitializer()
         {
+            //initializes player for new game
             if (Loaded == false)
             {
                 Coins = 20;
@@ -343,8 +349,10 @@ namespace TurnBasedRPG
         }
 
         //May conflict with loading later
+        // Fixed
         static void MonsterInitializer()
         {
+            //initilizes monster for new game
             if (Loaded == false || inShop == true)
             {
                 Random random = new Random();
@@ -361,6 +369,7 @@ namespace TurnBasedRPG
 
         static void MonsterTurn()
         {
+            //Sets sprite correct and plays through monsters turn
             MonsterLifeCheck();
             ResetPlayerActions();
             Sprites();
@@ -376,6 +385,7 @@ namespace TurnBasedRPG
         
         static void MonsterAI()
         {
+            //Determins monsters actions
             Random random = new Random();
             monsterChoice = random.Next(0, 6);
             if (failedToHeal == true)
@@ -418,6 +428,7 @@ namespace TurnBasedRPG
 
         static void MonsterAttack()
         {
+            // calculates monsters damage
             Random random = new Random();
             monsterDamage = random.Next(2 * playerLvl, 5 * playerLvl);
             if (blocking == true)
@@ -458,6 +469,7 @@ namespace TurnBasedRPG
 
         static void MonsterHeal()
         {
+            //monster heal and breaks if hit
             if (monsterTryingToHeal == true)
             {
                 if (checkheal != currentMonsterHP)
@@ -504,6 +516,7 @@ namespace TurnBasedRPG
 
         static void MonsterLifeCheck()
         {
+            //Determins if the monster is dead and combat should end
             if (currentMonsterHP <= 0)
             {
                 Sprites();
@@ -522,6 +535,7 @@ namespace TurnBasedRPG
 
         static void ResetPlayerActions()
         {
+            //After each turn it sets any and all status to false
             attacking = false;
             healing = false;
             defending = false;
@@ -529,6 +543,7 @@ namespace TurnBasedRPG
 
         static void SaveFile()
         {
+            // Writes all important values to save file
             if (!File.Exists("Savedata.txt"))
             {
                 File.Create("Savedata.txt").Close();
@@ -566,6 +581,7 @@ namespace TurnBasedRPG
 
         static void LoadFile()
         {
+            // Loads all important files and carries some of the error checking work
             if (File.Exists("Savedata.txt"))
             {
                 using (StreamReader sr = new StreamReader("Savedata.txt"))
@@ -788,6 +804,7 @@ namespace TurnBasedRPG
 
         static void ErrorChecking()
         {
+            // hard coded error checking to make sure things dont exceed crazy amounts
             if (playerLvl >= 11 || playerLvl <= 0)
             {
                 Console.SetCursorPosition(16, 12);
@@ -864,6 +881,7 @@ namespace TurnBasedRPG
 
         static void Sprites()
         {
+            // Renders the sprits for each action in fight
             if (attacking == true)
             {
                 Console.SetCursorPosition(2, 1);
@@ -943,6 +961,7 @@ namespace TurnBasedRPG
 
         static void ClearConsole()
         {
+            // Cools swiping effect per scene
             hasConsoleCleared = true;
             for (int i = 0; i < 35; i++)
             {
@@ -1007,6 +1026,7 @@ namespace TurnBasedRPG
 
         static void ShopUI()
         {
+            //Creates the shop ui
             if (shopUIInitialized == false)
             {
                 Console.SetCursorPosition(0, 16);
@@ -1088,6 +1108,7 @@ namespace TurnBasedRPG
 
         static void ShopChoice()
         {
+            // sets the value for the choice in the shop and exectues
             ConsoleKeyInfo cki;
             if (animTimerStarted == false)
             {
@@ -1144,6 +1165,7 @@ namespace TurnBasedRPG
         
         static void ShopKeeperText()
         {
+            // displays randomized shop keeper text upon entry aswell as handles the text for options
             if (shopKeeperHasSpoke == false)
             {
                 Random random = new Random();
@@ -1246,6 +1268,7 @@ namespace TurnBasedRPG
 
         static void PurchasePotion()
         {
+            //handles potions and purchasing of them
             if (Coins >= 25)
             {
                 Console.SetCursorPosition(28, 17);
@@ -1266,6 +1289,7 @@ namespace TurnBasedRPG
 
         static async void ShopUIAnimTimer()
         {
+            // handles shop animation async to avoid rewritting over the text each time
             while (inShop == true)
             {
                 ShopUI();
@@ -1277,6 +1301,7 @@ namespace TurnBasedRPG
 
         static void ShopUIAnimSwapper()
         {
+            // handles the animation running correctly from left to right without wierd breaks
             if (shopanimLeft == 1)
             {
                 shopanimLeft = 2;
@@ -1310,6 +1335,7 @@ namespace TurnBasedRPG
 
         static void MainMenuChoice()
         {
+            // handles main menu choice and what it leads to
             ConsoleKeyInfo cki;
             do
             {
@@ -1369,6 +1395,7 @@ namespace TurnBasedRPG
 
         static void AudioController()
         {
+            // handles what audio files should be played and error checks their existance
             if (!File.Exists("SoundFiles\\Menu.wav"))
             {
                 Console.WriteLine("You are missing Menu.wav please ensure it is there and relaunch the game");
@@ -1456,6 +1483,7 @@ namespace TurnBasedRPG
 
         static void StatScreen()
         {
+            // Hands the stats border window initialization
             Console.SetCursorPosition(0, 0);
             Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
             Console.WriteLine("█                                                                                                         █");
@@ -1479,6 +1507,7 @@ namespace TurnBasedRPG
 
         static void StatAdjuster()
         {
+            // Handles all the stat changes in the stat screen.
             Random random = new Random();
             if (playerLvl >= maxPlayerLvl)
             {
@@ -1515,6 +1544,7 @@ namespace TurnBasedRPG
 
         static void GameOver()
         {
+            // Handles the death state and prints out the current time of death
             Console.SetCursorPosition(0, 0);
             Console.WriteLine("                                 _____  _____");
             Console.WriteLine("                                <     `/     |");
@@ -1550,6 +1580,7 @@ namespace TurnBasedRPG
 
         static void MainMenu()
         {
+            // Handles the main menus sprites and such
             Console.SetCursorPosition(0, 0);
             Console.WriteLine("       __   __    __    _______   _______  _______ .______      .__   __.      ___      __    __  .___________.");
             Console.WriteLine("      |  | |  |  |  |  /  _____| /  _____||   ____||   _  \\     |  \\ |  |     /   \\    |  |  |  | |           |");
@@ -1590,6 +1621,7 @@ namespace TurnBasedRPG
 
         static void PlayerMenu()
         {
+            // Hands the in fight menu sprites and such
             Console.SetCursorPosition(0, 17);
             Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
             Console.WriteLine("█                                                                                                         █");
@@ -1643,6 +1675,7 @@ namespace TurnBasedRPG
 
         static void TurnDisplay()
         {
+            //Handles whos turn it is visually
             Console.SetCursorPosition(0, 16);
             if (playerTurn == true)
             {
@@ -1658,6 +1691,7 @@ namespace TurnBasedRPG
 
         static void UIClear()
         {
+            //Used to recreate the in fight UI for options
             Console.SetCursorPosition(0, 17);
             Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████████████████████████████");
             Console.WriteLine("█                                                                                                         █");
@@ -1676,6 +1710,7 @@ namespace TurnBasedRPG
 
         static void FullScreen()
         {
+            // Forces full screen upon launch
             var hwnd = GetConsoleWindow();
 
             PostMessage(hwnd, WM_MOUSEWHEEL, (IntPtr)(MK_CONTROL | WHEEL_DELTA), IntPtr.Zero);
