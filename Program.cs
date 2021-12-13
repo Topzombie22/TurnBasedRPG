@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Media;
 using System.Timers;
 using System.Threading;
 using System.Threading.Tasks;
@@ -55,6 +56,7 @@ namespace TurnBasedRPG
         static int playerInGameMenu = 1;
         static int shopMenu = 1;
         static int inMainMenu = 1;
+        static int inFightMusic;
 
 
         static void Main(string[] args)
@@ -71,10 +73,12 @@ namespace TurnBasedRPG
             {
                 while (onMenu == true)
                 {
+                    AudioController();
                     MainMenuChoice();
                 }
                 if (inFight == true)
                 {
+                    AudioController();
                     MonsterInitializer();
                     Sprites();
                 }
@@ -110,6 +114,7 @@ namespace TurnBasedRPG
                 }
                 if (inShop == true)
                 {
+                    AudioController();
                     animTimerStarted = false;
                     shopUIInitialized = false;
                 }
@@ -1037,6 +1042,46 @@ namespace TurnBasedRPG
             else if (inMainMenu == 3)
             {
                 Environment.Exit(0);
+            }
+        }
+
+        static void AudioController()
+        {
+            if (onMenu == true)
+            {
+                SoundPlayer menu = new SoundPlayer("SoundFiles\\Menu.wav");
+                menu.Play();
+            }
+            else if (inFight == true)
+            {
+                Random random = new Random();
+                inFightMusic = random.Next(1, 4);
+
+                if (inFightMusic == 1)
+                {
+                    SoundPlayer battle1 = new SoundPlayer("SoundFiles\\BattleTheme1.wav");
+                    battle1.Play();
+                }
+                else if (inFightMusic == 2)
+                {
+                    SoundPlayer battle2 = new SoundPlayer("SoundFiles\\BattleTheme2.wav");
+                    battle2.Play();
+                }
+                else if (inFightMusic == 3)
+                {
+                    SoundPlayer battle3 = new SoundPlayer("SoundFiles\\BattleTheme3.wav");
+                    battle3.Play();
+                }
+                else if (inFightMusic == 4)
+                {
+                    SoundPlayer battle4 = new SoundPlayer("SoundFiles\\BattleTheme4.wav");
+                    battle4.Play();
+                }
+            }
+            else if (inShop == true)
+            {
+                SoundPlayer shop = new SoundPlayer("SoundFiles\\ShopTheme.wav");
+                shop.Play();
             }
         }
 
