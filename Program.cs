@@ -29,6 +29,7 @@ namespace TurnBasedRPG
         static int recievedEXP;
         static int playerPotions = 3;
         static int monsterChoice;
+        static int checkheal;
         static bool gameLoop = true;
         static bool onMenu = true;
         static bool inGame;
@@ -45,6 +46,7 @@ namespace TurnBasedRPG
         static bool defending;
         static bool healing;
         static bool blocking;
+        static bool failedToHeal;
         static bool shopanimLeftb;
         static bool shopUIInitialized;
         static bool errorFound;
@@ -345,6 +347,12 @@ namespace TurnBasedRPG
         {
             Random random = new Random();
             monsterChoice = random.Next(0, 6);
+            if (failedToHeal == true)
+            {
+                MonsterAttack();
+                failedToHeal = false;
+                return;
+            }
             if (monsterTryingToHeal == true)
             {
                 MonsterHeal();
@@ -411,21 +419,34 @@ namespace TurnBasedRPG
         {
             if (monsterTryingToHeal == true)
             {
-                Random random = new Random();
-                monsterHeal = random.Next(2 * playerLvl, 10 * playerLvl);
-                currentMonsterHP = currentMonsterHP + monsterHeal;
-                monsterTryingToHeal = false;
-                if (currentMonsterHP > maxMonsterHP)
+                if (checkheal != currentMonsterHP)
                 {
-                    currentMonsterHP = maxMonsterHP;
+                    UIClear();
+                    Console.SetCursorPosition(8, 23);
+                    Console.WriteLine("You stopped the monster from healing!");
+                    monsterTryingToHeal = false;
+                    failedToHeal = true;
+                    Console.ReadKey();
                 }
-                UIClear();
-                Console.SetCursorPosition(8, 23);
-                Console.WriteLine("The monster healed for " + monsterHeal + " Damage...");
-                Console.ReadKey();
+                else if (checkheal == currentMonsterHP)
+                {
+                    Random random = new Random();
+                    monsterHeal = random.Next(2 * playerLvl, 10 * playerLvl);
+                    currentMonsterHP = currentMonsterHP + monsterHeal;
+                    monsterTryingToHeal = false;
+                    if (currentMonsterHP > maxMonsterHP)
+                    {
+                        currentMonsterHP = maxMonsterHP;
+                    }
+                    UIClear();
+                    Console.SetCursorPosition(8, 23);
+                    Console.WriteLine("The monster healed for " + monsterHeal + " Damage...");
+                    Console.ReadKey();
+                }
             }
             else
             {
+                checkheal = currentMonsterHP;
                 monsterTryingToHeal = true;
                 UIClear();
                 Console.SetCursorPosition(8, 23);
