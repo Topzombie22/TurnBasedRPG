@@ -76,6 +76,7 @@ namespace TurnBasedRPG
                 }
                 if (inFight == true)
                 {
+                    Loaded = false;
                     MonsterInitializer();
                     Sprites();
                 }
