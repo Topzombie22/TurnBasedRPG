@@ -79,6 +79,7 @@ namespace TurnBasedRPG
                 {
                     PlayerTurn();
                     MonsterTurn();
+                    hasConsoleCleared = false;
                 }
                 if (currentPlayerHP <= 0)
                 {
@@ -97,6 +98,7 @@ namespace TurnBasedRPG
                     StatScreen();
                     animTimerStarted = false;
                     shopUIInitialized = false;
+                    hasConsoleCleared = false;
                 }
                 if(hasConsoleCleared == false)
                 {
@@ -107,10 +109,14 @@ namespace TurnBasedRPG
                 while (inFight == false && inStatScreen == false && inShop == true)
                 {
                     ShopChoice();
+                    hasConsoleCleared = false;
                 }
-                ClearConsole();
-                System.Threading.Thread.Sleep(1000);
-                Console.SetCursorPosition(0, 0);
+                if (hasConsoleCleared == false)
+                {
+                    ClearConsole();
+                    System.Threading.Thread.Sleep(1000);
+                    Console.SetCursorPosition(0, 0);
+                }
             }
         }
 
@@ -178,7 +184,9 @@ namespace TurnBasedRPG
             {
                 Console.WriteLine("You go back to menu");
                 System.Threading.Thread.Sleep(500);
-                gameOver = true;
+                inFight = false;
+                inShop = false;
+                onMenu = true;
             }
         }
 
@@ -439,9 +447,17 @@ namespace TurnBasedRPG
 
         static void LoadFile()
         {
-            using (StreamReader sr = new StreamReader("Savedata.txt"))
+            if (File.Exists("Savedata.text"))
             {
+                using (StreamReader sr = new StreamReader("Savedata.txt"))
+                {
 
+                }
+            }
+            else
+            {
+                Console.SetCursorPosition(0, 10);
+                Console.WriteLine("There was no save file detected please ensure you have saved before trying to load");
             }
         }
 
@@ -526,6 +542,7 @@ namespace TurnBasedRPG
 
         static void ClearConsole()
         {
+            hasConsoleCleared = true;
             for (int i = 0; i < 35; i++)
             {
                 Console.SetCursorPosition(0, i);
@@ -925,9 +942,7 @@ namespace TurnBasedRPG
             else if (inMainMenu == 2)
             {
                 hasConsoleCleared = false;
-                ClearConsole();
-                System.Threading.Thread.Sleep(1000);
-                Console.SetCursorPosition(0, 0);
+                LoadFile();
                 PlayerInitializer();
             }
             else if (inMainMenu == 3)
