@@ -47,6 +47,7 @@ namespace TurnBasedRPG
         static bool blocking;
         static bool shopanimLeftb;
         static bool shopUIInitialized;
+        static bool errorFound;
         static bool shopKeeperHasSpoke = false;
         static bool changingScreen;
         static int shopanimLeft = 1;
@@ -509,6 +510,8 @@ namespace TurnBasedRPG
                     infighttemp = sr.ReadLine();
                     inshoptemp = sr.ReadLine();
 
+                    errorFound = false;
+
                     //parses all info to usable values
 
                     try
@@ -583,6 +586,11 @@ namespace TurnBasedRPG
                         Console.WriteLine("There was an issue determining the monsters max HP...");
                         return;
                     }
+                    ErrorChecking();
+                    if (errorFound == true)
+                    {
+                        return;
+                    }
                     if (infighttemp == "True")
                     {
                         inFight = true;
@@ -629,7 +637,78 @@ namespace TurnBasedRPG
 
         static void ErrorChecking()
         {
-            
+            if (playerLvl >= 11 || playerLvl <= 0)
+            {
+                Console.SetCursorPosition(16, 12);
+                Console.WriteLine("It appears your file is corrupted...");
+                Console.SetCursorPosition(16, 13);
+                Console.WriteLine("There was an issue determining your players level...");
+                errorFound = true;
+                return;
+            }
+            if (exp >= 101 || exp < 0)
+            {
+                Console.SetCursorPosition(16, 12);
+                Console.WriteLine("It appears your file is corrupted...");
+                Console.SetCursorPosition(16, 13);
+                Console.WriteLine("There was an issue determining your players EXP...");
+                errorFound = true;
+                return;
+            }
+            if (currentPlayerHP <= 0 || currentPlayerHP > maxPlayerHP)
+            {
+                Console.SetCursorPosition(16, 12);
+                Console.WriteLine("It appears your file is corrupted...");
+                Console.SetCursorPosition(16, 13);
+                Console.WriteLine("There was an issue determining your players HP...");
+                errorFound = true;
+                return;
+            }
+            if (maxPlayerHP <= 9 || maxPlayerHP > 100)
+            {
+                Console.SetCursorPosition(16, 12);
+                Console.WriteLine("It appears your file is corrupted...");
+                Console.SetCursorPosition(16, 13);
+                Console.WriteLine("There was an issue determining your players maximum HP...");
+                errorFound = true;
+                return;
+            }
+            if (Coins < 0)
+            {
+                Console.SetCursorPosition(16, 12);
+                Console.WriteLine("It appears your file is corrupted...");
+                Console.SetCursorPosition(16, 13);
+                Console.WriteLine("There was an issue determining your players coins...");
+                errorFound = true;
+                return;
+            }
+            if (currentMonsterHP < 0 || currentMonsterHP > maxMonsterHP)
+            {
+                Console.SetCursorPosition(16, 12);
+                Console.WriteLine("It appears your file is corrupted...");
+                Console.SetCursorPosition(16, 13);
+                Console.WriteLine("There was an issue determining the monsters current HP...");
+                errorFound = true;
+                return;
+            }
+            if (currentMonsterHP <= -1 || currentMonsterHP > maxMonsterHP)
+            {
+                Console.SetCursorPosition(16, 12);
+                Console.WriteLine("It appears your file is corrupted...");
+                Console.SetCursorPosition(16, 13);
+                Console.WriteLine("There was an issue determining the monsters current HP...");
+                errorFound = true;
+                return;
+            }
+            if (maxMonsterHP < 10 || maxMonsterHP > 300)
+            {
+                Console.SetCursorPosition(16, 12);
+                Console.WriteLine("It appears your file is corrupted...");
+                Console.SetCursorPosition(16, 13);
+                Console.WriteLine("There was an issue determining the monsters current HP...");
+                errorFound = true;
+                return;
+            }
         }
 
         static void Sprites()
