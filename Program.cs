@@ -71,12 +71,10 @@ namespace TurnBasedRPG
             {
                 while (onMenu == true)
                 {
-                    Loaded = false;
                     MainMenuChoice();
                 }
                 if (inFight == true)
                 {
-                    Loaded = false;
                     MonsterInitializer();
                     Sprites();
                 }
@@ -85,7 +83,6 @@ namespace TurnBasedRPG
                     PlayerTurn();
                     MonsterTurn();
                     hasConsoleCleared = false;
-                    Loaded = false;
                 }
                 if (currentPlayerHP <= 0)
                 {
@@ -119,6 +116,7 @@ namespace TurnBasedRPG
                 {
                     ShopChoice();
                     hasConsoleCleared = false;
+                    Loaded = false;
                 }
                 if (hasConsoleCleared == false)
                 {
